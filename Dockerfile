@@ -1,15 +1,16 @@
-FROM python:3-alpine
+FROM continuumio/miniconda
 
-RUN pip install colour-science
+LABEL org.colour-science.colour-dash="0.1.0"
+
+RUN apt-get update
+RUN /opt/conda/bin/conda install -y -c conda-forge colour-science
+RUN /opt/conda/bin/conda install -y pandas
 RUN pip install dash
 RUN pip install dash-core-components
 RUN pip install dash-html-components
 RUN pip install dash-renderer
-RUN pip install numpy
-RUN pip install pandas
 RUN pip install plotly
-RUN pip install scipy
 
 EXPOSE 8050
 
-CMD ['python', 'app.py']
+CMD ["python", "app.py"]
