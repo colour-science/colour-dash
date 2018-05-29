@@ -1,0 +1,9 @@
+colour-science
+dash
+dash-core-components
+dash-html-components
+dash-renderer
+numpy
+pandas
+plotly
+scipy
