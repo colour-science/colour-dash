@@ -40,6 +40,7 @@ def main():
                     A('colour-science@googlegroups.com',
                       href='mailto:colour-science@googlegroups.com')
                 ],
+                id='footer',
                 className='text-center')
         ],
         className='container')
