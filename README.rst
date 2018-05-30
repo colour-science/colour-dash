@@ -4,7 +4,7 @@ Colour - Dash
 Introduction
 ------------
 
-Various `Dash <https://dash.plot.ly/>`_ widgets for `Colour <https://github.com/colour-science/colour>`_.
+Various `Dash <https://dash.plot.ly/>`_ apps using `Colour <https://github.com/colour-science/colour>`_.
 
 About
 -----

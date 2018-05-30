@@ -6,6 +6,8 @@ Common
 
 from __future__ import division, unicode_literals
 
+import colour
+
 __author__ = 'Colour Developers'
 __copyright__ = 'Copyright (C) 2018 - Colour Developers'
 __license__ = 'New BSD License - http://opensource.org/licenses/BSD-3-Clause'
@@ -13,7 +15,27 @@ __maintainer__ = 'Colour Developers'
 __email__ = 'colour-science@googlegroups.com'
 __status__ = 'Production'
 
-__all__ = ['NUKE_COLORMATRIX_NODE_TEMPLATE', 'nuke_format_matrix']
+__all__ = [
+    'RGB_COLOURSPACES_OPTIONS', 'CHROMATIC_ADAPTATION_TRANSFORM_OPTIONS',
+    'ILLUMINANTS_OPTIONS', 'NUKE_COLORMATRIX_NODE_TEMPLATE',
+    'nuke_format_matrix'
+]
+
+RGB_COLOURSPACES_OPTIONS = [{
+    'label': key,
+    'value': key
+} for key in sorted(colour.RGB_COLOURSPACES.keys())]
+
+CHROMATIC_ADAPTATION_TRANSFORM_OPTIONS = [{
+    'label': key,
+    'value': key
+} for key in sorted(colour.CHROMATIC_ADAPTATION_TRANSFORMS.keys())]
+
+ILLUMINANTS_OPTIONS = [{
+    'label': key,
+    'value': key
+} for key in sorted(colour.ILLUMINANTS['CIE 1931 2 Degree Standard Observer']
+                    .keys())]
 
 NUKE_COLORMATRIX_NODE_TEMPLATE = """
 ColorMatrix {{
