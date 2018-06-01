@@ -10,7 +10,7 @@ from dash.dependencies import Input, Output
 from dash_core_components import Link, Location, Markdown
 from dash_html_components import Div, H2
 
-from app import APP
+from app import SERVER, APP
 from apps import (rgb_colourspace_models_chromatically_adapted_primaries,
                   rgb_colourspace_models_transformation_matrix)
 
@@ -25,11 +25,11 @@ __all__ = ['load_app']
 
 APP.layout = Div([
     Location(id='url', refresh=False),
-    Div(id='page-content', className='row')
+    Div([Div(id='apps', className='row')], id='content', className='container')
 ])
 
 
-@APP.callback(Output('page-content', 'children'), [Input('url', 'pathname')])
+@APP.callback(Output('apps', 'children'), [Input('url', 'pathname')])
 def load_app(app):
     if app == '/apps/rgb_colourspace_models_transformation_matrix':
         return rgb_colourspace_models_transformation_matrix.LAYOUT
@@ -47,8 +47,9 @@ def load_app(app):
                             '/apps/rgb_colourspace_models_transformation_matrix'
                         )
                     ]),
-                    Markdown(rgb_colourspace_models_transformation_matrix.
-                             APP_DESCRIPTION),
+                    Markdown(
+                        rgb_colourspace_models_transformation_matrix.
+                        APP_DESCRIPTION.replace('This app c', 'C')),
                     H2([
                         Link(
                             rgb_colourspace_models_chromatically_adapted_primaries.
@@ -59,11 +60,11 @@ def load_app(app):
                     ]),
                     Markdown(
                         rgb_colourspace_models_chromatically_adapted_primaries.
-                        APP_DESCRIPTION),
+                        APP_DESCRIPTION.replace('This app c', 'C')),
                 ]),
             ],
             className='row')
 
 
 if __name__ == '__main__':
-    APP.run_server(host='0.0.0.0')
+    APP.run_server(debug=True)

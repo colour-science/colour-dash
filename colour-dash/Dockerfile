@@ -9,10 +9,9 @@ RUN pip install dash
 RUN pip install dash-core-components
 RUN pip install dash-html-components
 RUN pip install dash-renderer
+RUN pip install gunicorn
 RUN pip install plotly
 
-COPY . .
-
-EXPOSE 8050
-
-CMD ["python", "index.py"]
+RUN mkdir -p /home/dash/colour-dash
+WORKDIR /home/dash/colour-dash
+COPY . /home/dash/colour-dash
