@@ -6,11 +6,6 @@ Introduction
 
 Various `Dash <https://dash.plot.ly/>`_ apps using `Colour <https://github.com/colour-science/colour>`_.
 
-Acknowledgements
-----------------
-
-https://github.com/sladkovm/docker-flask-gunicorn-nginx
-
 About
 -----
 
