@@ -10,9 +10,9 @@ from dash.dependencies import Input, Output
 from dash_core_components import Link, Location, Markdown
 from dash_html_components import Div, H2
 
+import apps.rgb_colourspace_models_transformation_matrix as app_1
+import apps.rgb_colourspace_models_chromatically_adapted_primaries as app_2
 from app import SERVER, APP
-from apps import (rgb_colourspace_models_chromatically_adapted_primaries,
-                  rgb_colourspace_models_transformation_matrix)
 
 __author__ = 'Colour Developers'
 __copyright__ = 'Copyright (C) 2018 - Colour Developers'
@@ -23,44 +23,25 @@ __status__ = 'Production'
 
 __all__ = ['load_app']
 
-APP.layout = Div([
-    Location(id='url', refresh=False),
-    Div([Div(id='apps', className='row')], id='content', className='container')
-])
+APP.layout = Div(
+    [Location(id='url', refresh=False),
+     Div(id='apps', className='row')])
 
 
 @APP.callback(Output('apps', 'children'), [Input('url', 'pathname')])
 def load_app(app):
-    if app == '/apps/rgb_colourspace_models_transformation_matrix':
-        return rgb_colourspace_models_transformation_matrix.LAYOUT
-    elif app == '/apps/rgb_colourspace_models_chromatically_adapted_primaries':
-        return rgb_colourspace_models_chromatically_adapted_primaries.LAYOUT
+    if app == app_1.APP_PATH:
+        return app_1.LAYOUT
+    elif app == app_2.APP_PATH:
+        return app_2.LAYOUT
     else:
         return Div(
             [
                 Div([
-                    H2([
-                        Link(
-                            rgb_colourspace_models_transformation_matrix.
-                            APP_NAME,
-                            href=
-                            '/apps/rgb_colourspace_models_transformation_matrix'
-                        )
-                    ]),
-                    Markdown(
-                        rgb_colourspace_models_transformation_matrix.
-                        APP_DESCRIPTION.replace('This app c', 'C')),
-                    H2([
-                        Link(
-                            rgb_colourspace_models_chromatically_adapted_primaries.
-                            APP_NAME,
-                            href=
-                            '/apps/rgb_colourspace_models_chromatically_adapted_primaries'
-                        )
-                    ]),
-                    Markdown(
-                        rgb_colourspace_models_chromatically_adapted_primaries.
-                        APP_DESCRIPTION.replace('This app c', 'C')),
+                    H2([Link(app_1.APP_NAME, href=app_1.APP_PATH)]),
+                    Markdown(app_1.APP_DESCRIPTION.replace('This app c', 'C')),
+                    H2([Link(app_2.APP_NAME, href=app_2.APP_PATH)]),
+                    Markdown(app_2.APP_DESCRIPTION.replace('This app c', 'C')),
                 ]),
             ],
             className='row')

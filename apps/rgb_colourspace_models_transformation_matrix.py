@@ -26,11 +26,12 @@ __email__ = 'colour-science@googlegroups.com'
 __status__ = 'Production'
 
 __all__ = [
-    'APP_NAME', 'APP_DESCRIPTION', 'UID', 'LAYOUT',
+    'APP_NAME', 'APP_NAME', 'APP_DESCRIPTION', 'UID', 'LAYOUT',
     'set_RGB_to_RGB_matrix_Textarea'
 ]
 
 APP_NAME = 'RGB Colourspace Models Transformation Matrix'
+APP_PATH = '/apps/{0}'.format(__name__)
 APP_DESCRIPTION = ('This app computes the colour transformation '
                    'matrix from the *Input RGB Colourspace* to the '
                    '*Output RGB Colourspace* using the given '

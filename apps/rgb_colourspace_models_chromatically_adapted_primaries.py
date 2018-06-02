@@ -25,10 +25,12 @@ __email__ = 'colour-science@googlegroups.com'
 __status__ = 'Production'
 
 __all__ = [
-    'APP_NAME', 'APP_DESCRIPTION', 'UID', 'LAYOUT', 'set_Primaries_Textarea'
+    'APP_NAME', 'APP_PATH', 'APP_DESCRIPTION', 'UID', 'LAYOUT',
+    'set_Primaries_Textarea'
 ]
 
 APP_NAME = 'RGB Colourspace Models Chromatically Adapted Primaries'
+APP_PATH = '/apps/{0}'.format(__name__)
 APP_DESCRIPTION = ('This app computes the '
                    '*Chromatically Adapted Primaries* of the given '
                    '*RGB Colourspace Model* to the given *Illuminant*'
