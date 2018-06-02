@@ -1,16 +1,15 @@
 FROM continuumio/miniconda
 
-LABEL org.colour-science.colour-dash="0.1.0"
-
 RUN apt-get update
 
 RUN /opt/conda/bin/conda install -y -c conda-forge colour-science
-RUN pip install dash
-RUN pip install dash-core-components
-RUN pip install dash-html-components
-RUN pip install dash-renderer
-RUN pip install gunicorn
-RUN pip install plotly
+RUN pip install \
+    dash \
+    dash-core-components \
+    dash-html-components \
+    dash-renderer \
+    gunicorn \
+    plotly
 
 RUN mkdir -p /home/dash/colour-dash
 WORKDIR /home/dash/colour-dash

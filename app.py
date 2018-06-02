@@ -16,6 +16,16 @@ __maintainer__ = 'Colour Developers'
 __email__ = 'colour-science@googlegroups.com'
 __status__ = 'Production'
 
+__application_name__ = 'Colour - Dash'
+
+__major_version__ = '0'
+__minor_version__ = '1'
+__change_version__ = '0'
+__version__ = '.'.join(
+    (__major_version__,
+     __minor_version__,
+     __change_version__))  # yapf: disable
+
 __all__ = ['SERVER', 'APP']
 
 SERVER = Flask(__name__)
@@ -25,7 +35,7 @@ SERVER = Flask(__name__)
 SERVER : Flask 
 """
 
-APP = dash.Dash('Colour - Dash', server=SERVER)
+APP = dash.Dash(__application_name__, server=SERVER)
 """
 *Dash* app.
 
