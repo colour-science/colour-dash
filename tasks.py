@@ -143,7 +143,7 @@ def docker_run(ctx):
     """
 
     message_box('Running "docker" container...')
-    ctx.run('docker run -d --name={1}  -p 8010:8000 {0}/{1}'.format(
+    ctx.run('docker run -d --name={1} -p 8010:8000 {0}/{1}'.format(
         ORG, CONTAINER))
 
 
