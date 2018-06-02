@@ -30,6 +30,21 @@ APP.layout = Div(
 
 @APP.callback(Output('apps', 'children'), [Input('url', 'pathname')])
 def load_app(app):
+    """
+    Callback loading given app into the appropriate :class:`Div` class
+    instance.
+
+    Parameters
+    ----------
+    app : unicode
+        App path.
+
+    Returns
+    -------
+    Div
+        :class:`Div` class instance of the app layout.
+    """
+
     if app == app_1.APP_PATH:
         return app_1.LAYOUT
     elif app == app_2.APP_PATH:

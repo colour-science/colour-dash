@@ -25,82 +25,142 @@ __email__ = 'colour-science@googlegroups.com'
 __status__ = 'Production'
 
 __all__ = [
-    'APP_NAME', 'APP_PATH', 'APP_DESCRIPTION', 'UID', 'LAYOUT',
-    'set_Primaries_Textarea'
+    'APP_NAME', 'APP_PATH', 'APP_DESCRIPTION', 'APP_UID', 'LAYOUT',
+    'set_primaries_output'
 ]
 
 APP_NAME = 'RGB Colourspace Models Chromatically Adapted Primaries'
+"""
+App name.
+
+APP_NAME : unicode
+"""
+
 APP_PATH = '/apps/{0}'.format(__name__)
+"""
+App path, i.e. app url.
+
+APP_PATH : unicode
+"""
+
 APP_DESCRIPTION = ('This app computes the '
                    '*Chromatically Adapted Primaries* of the given '
                    '*RGB Colourspace Model* to the given *Illuminant*'
                    ' using the given *Chromatic Adaptation Transform*.')
-UID = hash(APP_NAME)
+"""
+App description.
+
+APP_DESCRIPTION : unicode
+"""
+
+APP_UID = hash(APP_NAME)
+"""
+App unique id.
+
+APP_UID : unicode
+"""
+
 LAYOUT = Div(
     [
         H3(children=APP_NAME, className='text-center'),
         Markdown(APP_DESCRIPTION),
-        H5(children='Input Colourspace'),
+        H5(children='Colourspace'),
         Dropdown(
-            id='input-colourspace-{0}'.format(UID),
+            id='colourspace-{0}'.format(APP_UID),
             options=RGB_COLOURSPACES_OPTIONS,
             value=RGB_COLOURSPACES_OPTIONS[0]['value'],
             clearable=False),
         H5(children='Illuminant'),
         Dropdown(
-            id='illuminant-{0}'.format(UID),
+            id='illuminant-{0}'.format(APP_UID),
             options=ILLUMINANTS_OPTIONS,
             value=ILLUMINANTS_OPTIONS[0]['value'],
             clearable=False),
         H5(children='Chromatic Adaptation Transform'),
         Dropdown(
-            id='chromatic-adaptation-transform-{0}'.format(UID),
+            id='chromatic-adaptation-transform-{0}'.format(APP_UID),
             options=CHROMATIC_ADAPTATION_TRANSFORM_OPTIONS,
             value=CHROMATIC_ADAPTATION_TRANSFORM_OPTIONS[0]['value'],
             clearable=False),
         H5(children='Formatter'),
         Dropdown(
-            id='formatter-{0}'.format(UID),
+            id='formatter-{0}'.format(APP_UID),
             options=[{
                 'label': 'str',
                 'value': 'str'
             }, {
                 'label': 'repr',
                 'value': 'repr'
-            }, {
-                'label': 'Nuke',
-                'value': 'Nuke'
             }],
             value='str',
             clearable=False),
         H5(children='Decimals'),
-        Slider(id='decimals-{0}'.format(UID), min=1, max=15, step=1, value=10),
-        Pre([Code(id='primaries-{0}'.format(UID), className='code shell')]),
+        Slider(
+            id='decimals-{0}'.format(APP_UID),
+            min=1,
+            max=15,
+            step=1,
+            value=10,
+            marks={i + 1: str(i + 1)
+                   for i in range(15)}),
+        Pre([Code(id='primaries-{0}'.format(APP_UID), className='code shell')],
+            className='app-output'),
     ],
     className='col-md-6 col-md-offset-3')
+"""
+App layout, i.e. :class:`Div` class instance.
+
+LAYOUT : Div
+"""
 
 
 @APP.callback(
     Output(
-        component_id='primaries-{0}'.format(UID),
-        component_property='children'), [
-            Input('input-colourspace-{0}'.format(UID), 'value'),
-            Input('illuminant-{0}'.format(UID), 'value'),
-            Input('chromatic-adaptation-transform-{0}'.format(UID), 'value'),
-            Input('formatter-{0}'.format(UID), 'value'),
-            Input('decimals-{0}'.format(UID), 'value')
-        ])
-def set_Primaries_Textarea(input_colourspace, illuminant,
-                           chromatic_adaptation_transform, formatter,
-                           decimals):
+        component_id='primaries-{0}'.format(APP_UID),
+        component_property='children'),
+    [
+        Input('colourspace-{0}'.format(APP_UID), 'value'),
+        Input('illuminant-{0}'.format(APP_UID), 'value'),
+        Input('chromatic-adaptation-transform-{0}'.format(APP_UID), 'value'),
+        Input('formatter-{0}'.format(APP_UID), 'value'),
+        Input('decimals-{0}'.format(APP_UID), 'value')
+    ])
+def set_primaries_output(colourspace, illuminant,
+                         chromatic_adaptation_transform, formatter, decimals):
+    """
+    Computes and writes the chromatically adapted *primaries *of the given
+    *RGB* colourspace model to the given *illuminant* using the given
+    *chromatic adaptation transform*to into the output :class:`Pre` class
+    instance.
+
+    Parameters
+    ----------
+    colourspace : unicode
+        *RGB* colourspace to chromatically adapt the *primaries*.
+    illuminant : unicode
+        *CIE 1931 2 Degree Standard Observer* illuminant to adapt the
+        *primaries* to.
+    chromatic_adaptation_transform : unicode
+        *Chromatic adaptation transform* to use.
+    formatter : unicode
+        Formatter to use, :func:`str` or :func:`repr`.
+    decimals : int
+        Decimals to use when formatting the chromatically adapted *primaries*.
+
+    Returns
+    -------
+    unicode
+        Chromatically adapted *primaries*.
+    """
+
     P = colour.chromatically_adapted_primaries(
-        colour.RGB_COLOURSPACES[input_colourspace].primaries,
-        colour.RGB_COLOURSPACES[input_colourspace].whitepoint,
+        colour.RGB_COLOURSPACES[colourspace].primaries,
+        colour.RGB_COLOURSPACES[colourspace].whitepoint,
         colour.ILLUMINANTS['CIE 1931 2 Degree Standard Observer'][illuminant],
         chromatic_adaptation_transform)
 
     with colour.utilities.numpy_print_options(
-            formatter={'float': ('{{:0.{0}f}}'.format(decimals)).format},
+            formatter={'float': ('{{: 0.{0}f}}'.format(decimals)).format},
             threshold=np.nan):
         if formatter == 'str':
             P = str(P)

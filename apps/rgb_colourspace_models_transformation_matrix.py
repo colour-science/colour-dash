@@ -26,42 +26,66 @@ __email__ = 'colour-science@googlegroups.com'
 __status__ = 'Production'
 
 __all__ = [
-    'APP_NAME', 'APP_NAME', 'APP_DESCRIPTION', 'UID', 'LAYOUT',
-    'set_RGB_to_RGB_matrix_Textarea'
+    'APP_NAME', 'APP_NAME', 'APP_DESCRIPTION', 'APP_UID', 'LAYOUT',
+    'set_RGB_to_RGB_matrix_output'
 ]
 
 APP_NAME = 'RGB Colourspace Models Transformation Matrix'
+"""
+App name.
+
+APP_NAME : unicode
+"""
+
 APP_PATH = '/apps/{0}'.format(__name__)
+"""
+App path, i.e. app url.
+
+APP_PATH : unicode
+"""
+
 APP_DESCRIPTION = ('This app computes the colour transformation '
                    'matrix from the *Input RGB Colourspace* to the '
                    '*Output RGB Colourspace* using the given '
                    '*Chromatic Adaptation Transform*.')
-UID = hash(APP_NAME)
+"""
+App description.
+
+APP_DESCRIPTION : unicode
+"""
+
+APP_UID = hash(APP_NAME)
+"""
+App unique id.
+
+APP_UID : unicode
+"""
+
 LAYOUT = Div(
     [
         H3(children=APP_NAME, className='text-center'),
         Markdown(APP_DESCRIPTION),
         H5(children='Input Colourspace'),
         Dropdown(
-            id='input-colourspace-{0}'.format(UID),
+            id='input-colourspace-{0}'.format(APP_UID),
             options=RGB_COLOURSPACES_OPTIONS,
             value=RGB_COLOURSPACES_OPTIONS[0]['value'],
             clearable=False),
         H5(children='Output Colourspace'),
         Dropdown(
-            id='output-colourspace-{0}'.format(UID),
+            id='output-colourspace-{0}'.format(APP_UID),
             options=RGB_COLOURSPACES_OPTIONS,
             value=RGB_COLOURSPACES_OPTIONS[0]['value'],
             clearable=False),
         H5(children='Chromatic Adaptation Transform'),
         Dropdown(
-            id='chromatic-adaptation-transform-{0}'.format(UID),
+            id='chromatic-adaptation-transform-{0}'.format(APP_UID),
             options=CHROMATIC_ADAPTATION_TRANSFORM_OPTIONS,
             value=CHROMATIC_ADAPTATION_TRANSFORM_OPTIONS[0]['value'],
             clearable=False),
         H5(children='Formatter'),
         Dropdown(
-            id='formatter-{0}'.format(UID),
+            id='formatter-{0}'.format(APP_UID),
             options=[{
                 'label': 'str',
                 'value': 'str'
@@ -75,35 +99,73 @@ LAYOUT = Div(
             value='str',
             clearable=False),
         H5(children='Decimals'),
-        Slider(id='decimals-{0}'.format(UID), min=1, max=15, step=1, value=10),
+        Slider(
+            id='decimals-{0}'.format(APP_UID),
+            min=1,
+            max=15,
+            step=1,
+            value=10,
+            marks={i + 1: str(i + 1)
+                   for i in range(15)}),
         Pre([
             Code(
-                id='RGB-transformation-matrix-{0}'.format(UID),
+                id='RGB-transformation-matrix-{0}'.format(APP_UID),
                 className='code shell')
-        ]),
+        ], className='app-output'),
     ],
     className='col-md-6 col-md-offset-3')
+"""
+App layout, i.e. :class:`Div` class instance.
+
+LAYOUT : Div
+"""
 
 
 @APP.callback(
     Output(
-        component_id='RGB-transformation-matrix-{0}'.format(UID),
-        component_property='children'), [
-            Input('input-colourspace-{0}'.format(UID), 'value'),
-            Input('output-colourspace-{0}'.format(UID), 'value'),
-            Input('chromatic-adaptation-transform-{0}'.format(UID), 'value'),
-            Input('formatter-{0}'.format(UID), 'value'),
-            Input('decimals-{0}'.format(UID), 'value')
-        ])
-def set_RGB_to_RGB_matrix_Textarea(input_colourspace, output_colourspace,
-                                   chromatic_adaptation_transform, formatter,
-                                   decimals):
+        component_id='RGB-transformation-matrix-{0}'.format(APP_UID),
+        component_property='children'),
+    [
+        Input('input-colourspace-{0}'.format(APP_UID), 'value'),
+        Input('output-colourspace-{0}'.format(APP_UID), 'value'),
+        Input('chromatic-adaptation-transform-{0}'.format(APP_UID), 'value'),
+        Input('formatter-{0}'.format(APP_UID), 'value'),
+        Input('decimals-{0}'.format(APP_UID), 'value')
+    ])
+def set_RGB_to_RGB_matrix_output(input_colourspace, output_colourspace,
+                                 chromatic_adaptation_transform, formatter,
+                                 decimals):
+    """
+    Computes and writes the colour transformation matrix from given input *RGB*
+    colourspace to the output *RGB* colourspace using given
+    *chromatic adaptation transform* into the output :class:`Pre` class
+    instance.
+
+    Parameters
+    ----------
+    input_colourspace : unicode
+        Input *RGB* colourspace.
+    output_colourspace : unicode
+        Output *RGB* colourspace.
+    chromatic_adaptation_transform : unicode
+        *Chromatic adaptation transform* to use.
+    formatter : unicode
+        Formatter to use, :func:`str`, :func:`repr` or *Nuke*.
+    decimals : int
+        Decimals to use when formatting the colour transformation matrix.
+
+    Returns
+    -------
+    unicode
+        Colour transformation matrix.
+    """
+
     M = colour.RGB_to_RGB_matrix(colour.RGB_COLOURSPACES[input_colourspace],
                                  colour.RGB_COLOURSPACES[output_colourspace],
                                  chromatic_adaptation_transform)
 
     with colour.utilities.numpy_print_options(
-            formatter={'float': ('{{:0.{0}f}}'.format(decimals)).format},
+            formatter={'float': ('{{: 0.{0}f}}'.format(decimals)).format},
             threshold=np.nan):
         if formatter == 'str':
             M = str(M)

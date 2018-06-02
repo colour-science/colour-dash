@@ -19,8 +19,18 @@ __status__ = 'Production'
 __all__ = ['SERVER', 'APP']
 
 SERVER = Flask(__name__)
+"""
+*Flask* server hosting the *Dash* app.
+
+SERVER : Flask 
+"""
 
 APP = dash.Dash('Colour - Dash', server=SERVER)
+"""
+*Dash* app.
+
+APP : Dash 
+"""
 
 APP.config['suppress_callback_exceptions'] = True
 
@@ -33,7 +43,7 @@ APP.css.append_css({
 })
 
 APP.scripts.append_script({
-    'external_url': [
-        'https://cdnjs.cloudflare.com/ajax/libs/iframe-resizer/3.6.1/iframeResizer.contentWindow.min.js'
-    ]
+    'external_url':
+    [('https://cdnjs.cloudflare.com/ajax/libs/iframe-resizer/3.6.1/'
+      'iframeResizer.contentWindow.min.js')]
 })
