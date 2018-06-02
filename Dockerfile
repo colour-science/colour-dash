@@ -15,3 +15,5 @@ RUN pip install plotly
 RUN mkdir -p /home/dash/colour-dash
 WORKDIR /home/dash/colour-dash
 COPY . /home/dash/colour-dash
+
+CMD ["gunicorn", "-b", "0.0.0.0:8000", "index:SERVER"]
