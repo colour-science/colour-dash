@@ -23,7 +23,7 @@ Run
 
 .. code-block:: bash
 
-    $ docker run -d --name={1}  -p 8010:8000 colourscience/colour-dash
+    $ docker run -d --name=colour-dash -p 8010:8000 colourscience/colour-dash
 
 Development
 -----------
