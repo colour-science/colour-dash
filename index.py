@@ -8,7 +8,7 @@ from __future__ import division, unicode_literals
 
 from dash.dependencies import Input, Output
 from dash_core_components import Link, Location, Markdown
-from dash_html_components import Div, H2
+from dash_html_components import Div, H3
 
 import apps.rgb_colourspace_models_transformation_matrix as app_1
 import apps.rgb_colourspace_models_chromatically_adapted_primaries as app_2
@@ -53,9 +53,13 @@ def load_app(app):
         return Div(
             [
                 Div([
-                    H2([Link(app_1.APP_NAME, href=app_1.APP_PATH)]),
+                    Markdown(
+                        'Various colour science '
+                        '[Dash](https://dash.plot.ly/) apps built on top of '
+                        '[Colour](https://github.com/colour-science/colour).'),
+                    H3([Link(app_1.APP_NAME, href=app_1.APP_PATH)]),
                     Markdown(app_1.APP_DESCRIPTION.replace('This app c', 'C')),
-                    H2([Link(app_2.APP_NAME, href=app_2.APP_PATH)]),
+                    H3([Link(app_2.APP_NAME, href=app_2.APP_PATH)]),
                     Markdown(app_2.APP_DESCRIPTION.replace('This app c', 'C')),
                 ]),
             ],

@@ -7,13 +7,14 @@ RGB Colourspace Models Transformation Matrix Application
 from __future__ import division, unicode_literals
 
 import numpy as np
+import urlparse
 from dash.dependencies import Input, Output
-from dash_core_components import Dropdown, Markdown, Slider, Textarea
-from dash_html_components import Code, Div, H3, H5, Pre
+from dash_core_components import Dropdown, Link, Markdown, Slider, Textarea
+from dash_html_components import A, Code, Div, H3, H5, Li, Pre, Ul
 
 import colour
 
-from app import APP
+from app import APP, SERVER_URL
 from apps.common import (CHROMATIC_ADAPTATION_TRANSFORM_OPTIONS,
                          NUKE_COLORMATRIX_NODE_TEMPLATE,
                          RGB_COLOURSPACES_OPTIONS, nuke_format_matrix)
@@ -37,7 +38,7 @@ App name.
 APP_NAME : unicode
 """
 
-APP_PATH = '/apps/{0}'.format(__name__)
+APP_PATH = '/apps/{0}'.format(__name__.split('.')[-1])
 """
 App path, i.e. app url.
 
@@ -61,9 +62,9 @@ App unique id.
 APP_UID : unicode
 """
 
-LAYOUT = Div(
-    [
-        H3(children=APP_NAME, className='text-center'),
+LAYOUT = Div([
+    H3([Link(APP_NAME, href=APP_PATH)], className='text-center'),
+    Div([
         Markdown(APP_DESCRIPTION),
         H5(children='Input Colourspace'),
         Dropdown(
@@ -111,9 +112,17 @@ LAYOUT = Div(
             Code(
                 id='RGB-transformation-matrix-{0}'.format(APP_UID),
                 className='code shell')
-        ], className='app-output'),
+        ],
+            className='app-output'),
+        Ul([
+            Li([Link('Back to index...', href='/')]),
+            Li([A('Permalink', href=urlparse.urljoin(SERVER_URL, APP_PATH))]),
+            Li([A('colour-science.org', href='http://colour-science.org')]),
+        ],
+           className='list-inline text-center'),
     ],
-    className='col-md-6 col-md-offset-3')
+        className='col-md-6 col-md-offset-3')
+])
 """
 App layout, i.e. :class:`Div` class instance.
 

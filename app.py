@@ -7,6 +7,7 @@ Application
 from __future__ import division, unicode_literals
 
 import dash
+import os
 from flask import Flask
 
 __author__ = 'Colour Developers'
@@ -26,13 +27,20 @@ __version__ = '.'.join(
      __minor_version__,
      __change_version__))  # yapf: disable
 
-__all__ = ['SERVER', 'APP']
+__all__ = ['SERVER', 'SERVER_URL', 'APP']
 
 SERVER = Flask(__name__)
 """
 *Flask* server hosting the *Dash* app.
 
 SERVER : Flask 
+"""
+
+SERVER_URL = os.environ.get('COLOUR_DASH_SERVER')
+"""
+Server url used to construct permanent links for the individual apps.
+
+SERVER_URL : unicode 
 """
 
 APP = dash.Dash(__application_name__, server=SERVER)

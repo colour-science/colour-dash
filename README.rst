@@ -6,7 +6,8 @@ Colour - Dash
 Introduction
 ------------
 
-Various `Dash <https://dash.plot.ly/>`_ apps using `Colour <https://github.com/colour-science/colour>`_.
+Various colour science `Dash <https://dash.plot.ly/>`_ apps built on top of
+`Colour <https://github.com/colour-science/colour>`_.
 
 Installation
 ------------
@@ -23,7 +24,7 @@ Run
 
 .. code-block:: bash
 
-    $ docker run -d --name=colour-dash -p 8010:8000 colourscience/colour-dash
+    $ docker run -d --name=colour-dash -e COLOUR_DASH_SERVER=http://example.com:8010/ -p 8010:8000 colourscience/colour-dash
 
 Development
 -----------

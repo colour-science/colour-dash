@@ -126,7 +126,7 @@ def docker_remove(ctx):
     ctx.run('docker rm {0}'.format(CONTAINER))
 
 
-@task
+@task(docker_remove, docker_build)
 def docker_run(ctx):
     """
     Runs the *docker* container.
@@ -143,8 +143,10 @@ def docker_run(ctx):
     """
 
     message_box('Running "docker" container...')
-    ctx.run('docker run -d --name={1} -p 8010:8000 {0}/{1}'.format(
-        ORG, CONTAINER))
+    ctx.run('docker run -d '
+            '--name={1} '
+            '-e COLOUR_DASH_SERVER=http://colour-science.org:8010/'
+            ' -p 8010:8000 {0}/{1}'.format(ORG, CONTAINER))
 
 
 @task
