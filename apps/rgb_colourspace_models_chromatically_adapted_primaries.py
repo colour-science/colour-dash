@@ -108,8 +108,16 @@ LAYOUT = Div([
             className='app-output'),
         Ul([
             Li([Link('Back to index...', href='/')]),
-            Li([A('Permalink', href=urlparse.urljoin(SERVER_URL, APP_PATH))]),
-            Li([A('colour-science.org', href='http://colour-science.org')]),
+            Li([
+                A('Permalink',
+                  href=urlparse.urljoin(SERVER_URL, APP_PATH),
+                  target='_blank')
+            ]),
+            Li([
+                A('colour-science.org',
+                  href='http://colour-science.org',
+                  target='_blank')
+            ]),
         ],
            className='list-inline text-center'),
     ],
