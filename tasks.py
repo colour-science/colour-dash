@@ -145,8 +145,14 @@ def docker_run(ctx):
     message_box('Running "docker" container...')
     ctx.run('docker run -d '
             '--name={1} '
-            '-e COLOUR_DASH_SERVER=http://colour-science.org:8010/'
-            ' -p 8010:8000 {0}/{1}'.format(ORG, CONTAINER))
+            '-e COLOUR_DASH_SERVER=http://colour-science.org:8010/ '
+            '-e COLOUR_DASH_CSS='
+            'http://colour-science.org/assets/css/all-nocdn.css '
+            '-e COLOUR_DASH_JS='
+            'http://colour-science.org/assets/js/analytics.js,'
+            'https://cdnjs.cloudflare.com/ajax/libs/iframe-resizer/3.6.1/'
+            'iframeResizer.contentWindow.min.js '
+            '-p 8010:8000 {0}/{1}'.format(ORG, CONTAINER))
 
 
 @task
