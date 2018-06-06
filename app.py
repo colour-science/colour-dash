@@ -53,15 +53,11 @@ APP : Dash
 APP.config['suppress_callback_exceptions'] = True
 
 APP.css.append_css({
-    'external_url': [
-        'http://colour-science.org/assets/css/all-nocdn.css',
-        'http://colour-science.org/assets/css/custom.css',
-        'http://colour-science.org/assets/css/font-awesome.css'
-    ]
+    'external_url':
+    os.environ.get('COLOUR_DASH_CSS', '').split(',')
 })
 
 APP.scripts.append_script({
     'external_url':
-    [('https://cdnjs.cloudflare.com/ajax/libs/iframe-resizer/3.6.1/'
-      'iframeResizer.contentWindow.min.js')]
+    os.environ.get('COLOUR_DASH_JS', '').split(',')
 })
