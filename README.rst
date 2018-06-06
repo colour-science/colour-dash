@@ -24,7 +24,12 @@ Run
 
 .. code-block:: bash
 
-    $ docker run -d --name=colour-dash -e COLOUR_DASH_SERVER=http://example.com:8010/ -p 8010:8000 colourscience/colour-dash
+    $ docker run -d \
+    --name=colour-dash \
+    -e COLOUR_DASH_SERVER=http://example.com:8010/ \
+    -e COLOUR_DASH_CSS=http://colour-science.org/assets/css/all-nocdn.css \
+    -e COLOUR_DASH_JS=http://colour-science.org/assets/js/analytics.js,https://cdnjs.cloudflare.com/ajax/libs/iframe-resizer/3.6.1/iframeResizer.contentWindow.min.js \
+    -p 8010:8000 colourscience/colour-dash
 
 Development
 -----------
