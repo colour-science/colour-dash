@@ -7,6 +7,7 @@ Invoke - Tasks
 from __future__ import print_function, unicode_literals
 
 from invoke import task
+from invoke.exceptions import Failure
 
 from colour.utilities import message_box
 
@@ -120,10 +121,16 @@ def docker_remove(ctx):
     """
 
     message_box('Stopping "docker" container...')
-    ctx.run('docker stop {0}'.format(CONTAINER))
+    try:
+        ctx.run('docker stop {0}'.format(CONTAINER))
+    except Failure:
+        pass
 
     message_box('Removing "docker" container...')
-    ctx.run('docker rm {0}'.format(CONTAINER))
+    try:
+        ctx.run('docker rm {0}'.format(CONTAINER))
+    except Failure:
+        pass
 
 
 @task(docker_remove, docker_build)
