@@ -62,75 +62,79 @@ App unique id.
 APP_UID : unicode
 """
 
-LAYOUT = Div([
-    H3([Link(APP_NAME, href=APP_PATH)], className='text-center'),
-    Div([
-        Markdown(APP_DESCRIPTION),
-        H5(children='Input Colourspace'),
-        Dropdown(
-            id='input-colourspace-{0}'.format(APP_UID),
-            options=RGB_COLOURSPACES_OPTIONS,
-            value=RGB_COLOURSPACES_OPTIONS[0]['value'],
-            clearable=False),
-        H5(children='Output Colourspace'),
-        Dropdown(
-            id='output-colourspace-{0}'.format(APP_UID),
-            options=RGB_COLOURSPACES_OPTIONS,
-            value=RGB_COLOURSPACES_OPTIONS[0]['value'],
-            clearable=False),
-        H5(children='Chromatic Adaptation Transform'),
-        Dropdown(
-            id='chromatic-adaptation-transform-{0}'.format(APP_UID),
-            options=CHROMATIC_ADAPTATION_TRANSFORM_OPTIONS,
-            value=CHROMATIC_ADAPTATION_TRANSFORM_OPTIONS[0]['value'],
-            clearable=False),
-        H5(children='Formatter'),
-        Dropdown(
-            id='formatter-{0}'.format(APP_UID),
-            options=[{
-                'label': 'str',
-                'value': 'str'
-            }, {
-                'label': 'repr',
-                'value': 'repr'
-            }, {
-                'label': 'Nuke',
-                'value': 'Nuke'
-            }],
-            value='str',
-            clearable=False),
-        H5(children='Decimals'),
-        Slider(
-            id='decimals-{0}'.format(APP_UID),
-            min=1,
-            max=15,
-            step=1,
-            value=10,
-            marks={i + 1: str(i + 1)
-                   for i in range(15)}),
-        Pre([
-            Code(
-                id='RGB-transformation-matrix-{0}'.format(APP_UID),
-                className='code shell')
-        ],
-            className='app-output'),
-        Ul([
-            Li([Link('Back to index...', href='/')]),
-            Li([
-                A('Permalink',
-                  href=urlparse.urljoin(SERVER_URL, APP_PATH),
-                  target='_blank')
-            ]),
-            Li([
-                A('colour-science.org',
-                  href='http://colour-science.org',
-                  target='_blank')
-            ]),
-        ],
-           className='list-inline text-center'),
+LAYOUT = Div(
+    [
+        H3([Link(APP_NAME, href=APP_PATH)], className='text-center'),
+        Div([
+            Markdown(APP_DESCRIPTION),
+            H5(children='Input Colourspace'),
+            Dropdown(
+                id='input-colourspace-{0}'.format(APP_UID),
+                options=RGB_COLOURSPACES_OPTIONS,
+                value=RGB_COLOURSPACES_OPTIONS[0]['value'],
+                clearable=False),
+            H5(children='Output Colourspace'),
+            Dropdown(
+                id='output-colourspace-{0}'.format(APP_UID),
+                options=RGB_COLOURSPACES_OPTIONS,
+                value=RGB_COLOURSPACES_OPTIONS[0]['value'],
+                clearable=False),
+            H5(children='Chromatic Adaptation Transform'),
+            Dropdown(
+                id='chromatic-adaptation-transform-{0}'.format(APP_UID),
+                options=CHROMATIC_ADAPTATION_TRANSFORM_OPTIONS,
+                value=CHROMATIC_ADAPTATION_TRANSFORM_OPTIONS[0]['value'],
+                clearable=False),
+            H5(children='Formatter'),
+            Dropdown(
+                id='formatter-{0}'.format(APP_UID),
+                options=[{
+                    'label': 'str',
+                    'value': 'str'
+                }, {
+                    'label': 'repr',
+                    'value': 'repr'
+                }, {
+                    'label': 'Nuke',
+                    'value': 'Nuke'
+                }],
+                value='str',
+                clearable=False),
+            H5(children='Decimals'),
+            Slider(
+                id='decimals-{0}'.format(APP_UID),
+                min=1,
+                max=15,
+                step=1,
+                value=10,
+                marks={i + 1: str(i + 1)
+                       for i in range(15)}),
+            Pre([
+                Code(
+                    id='RGB-transformation-matrix-{0}'.format(APP_UID),
+                    className='code shell')
+            ],
+                className='app-output'),
+            Ul([
+                Li([Link('Back to index...', href='/')],
+                   className='list-inline-item'),
+                Li([
+                    A('Permalink',
+                      href=urlparse.urljoin(SERVER_URL, APP_PATH),
+                      target='_blank')
+                ],
+                   className='list-inline-item'),
+                Li([
+                    A('colour-science.org',
+                      href='http://colour-science.org',
+                      target='_blank')
+                ],
+                   className='list-inline-item'),
+            ],
+               className='list-inline text-center'),
+        ], )
     ],
-        className='col-md-6 col-md-offset-3')
-])
+    className='col-6 mx-auto')
 """
 App layout, i.e. :class:`Div` class instance.
 
