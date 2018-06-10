@@ -112,8 +112,8 @@ LAYOUT = Div([
         Pre([Code(id='primaries-{0}'.format(APP_UID), className='code shell')],
             className='app-widget app-output'),
         Ul([
-            Li([Link('Back to index...', href='/')],
-               className='app-link list-inline-item'),
+            Li([Link('Back to index...', href='/', className='app-link')],
+               className='list-inline-item'),
             Li([
                 A('Permalink',
                   href=urlparse.urljoin(SERVER_URL, APP_PATH),
