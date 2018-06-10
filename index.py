@@ -59,9 +59,15 @@ def load_app(app):
                   href='https://github.com/colour-science/colour',
                   target='_blank'), '.'
             ]),
-            H3([Link(app_1.APP_NAME, href=app_1.APP_PATH)]),
+            H3([
+                Link(
+                    app_1.APP_NAME, href=app_1.APP_PATH, className='app-link')
+            ]),
             Markdown(app_1.APP_DESCRIPTION.replace('This app c', 'C')),
-            H3([Link(app_2.APP_NAME, href=app_2.APP_PATH)]),
+            H3([
+                Link(
+                    app_2.APP_NAME, href=app_2.APP_PATH, className='app-link')
+            ]),
             Markdown(app_2.APP_DESCRIPTION.replace('This app c', 'C')),
         ])
 
