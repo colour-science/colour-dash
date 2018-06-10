@@ -70,19 +70,22 @@ LAYOUT = Div([
             id='colourspace-{0}'.format(APP_UID),
             options=RGB_COLOURSPACES_OPTIONS,
             value=RGB_COLOURSPACES_OPTIONS[0]['value'],
-            clearable=False),
+            clearable=False,
+            className='app-widget'),
         H5(children='Illuminant'),
         Dropdown(
             id='illuminant-{0}'.format(APP_UID),
             options=ILLUMINANTS_OPTIONS,
             value=ILLUMINANTS_OPTIONS[0]['value'],
-            clearable=False),
+            clearable=False,
+            className='app-widget'),
         H5(children='Chromatic Adaptation Transform'),
         Dropdown(
             id='chromatic-adaptation-transform-{0}'.format(APP_UID),
             options=CHROMATIC_ADAPTATION_TRANSFORM_OPTIONS,
             value=CHROMATIC_ADAPTATION_TRANSFORM_OPTIONS[0]['value'],
-            clearable=False),
+            clearable=False,
+            className='app-widget'),
         H5(children='Formatter'),
         Dropdown(
             id='formatter-{0}'.format(APP_UID),
@@ -94,7 +97,8 @@ LAYOUT = Div([
                 'value': 'repr'
             }],
             value='str',
-            clearable=False),
+            clearable=False,
+            className='app-widget'),
         H5(children='Decimals'),
         Slider(
             id='decimals-{0}'.format(APP_UID),
@@ -103,12 +107,13 @@ LAYOUT = Div([
             step=1,
             value=10,
             marks={i + 1: str(i + 1)
-                   for i in range(15)}),
+                   for i in range(15)},
+            className='app-widget'),
         Pre([Code(id='primaries-{0}'.format(APP_UID), className='code shell')],
-            className='app-output'),
+            className='app-widget app-output'),
         Ul([
             Li([Link('Back to index...', href='/')],
-               className='list-inline-item'),
+               className='app-link list-inline-item'),
             Li([
                 A('Permalink',
                   href=urlparse.urljoin(SERVER_URL, APP_PATH),
