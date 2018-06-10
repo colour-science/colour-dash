@@ -50,25 +50,20 @@ def load_app(app):
     elif app == app_2.APP_PATH:
         return app_2.LAYOUT
     else:
-        return Div(
-            [
-                Div([
-                    P([
-                        'Various colour science ',
-                        A('Dash',
-                          href='https://dash.plot.ly/',
-                          target='_blank'), ' apps built on top of \n',
-                        A('Colour',
-                          href='https://github.com/colour-science/colour',
-                          target='_blank'), '.'
-                    ]),
-                    H3([Link(app_1.APP_NAME, href=app_1.APP_PATH)]),
-                    Markdown(app_1.APP_DESCRIPTION.replace('This app c', 'C')),
-                    H3([Link(app_2.APP_NAME, href=app_2.APP_PATH)]),
-                    Markdown(app_2.APP_DESCRIPTION.replace('This app c', 'C')),
-                ]),
-            ],
-            className='row')
+        return Div([
+            P([
+                'Various colour science ',
+                A('Dash', href='https://dash.plot.ly/', target='_blank'),
+                ' apps built on top of \n',
+                A('Colour',
+                  href='https://github.com/colour-science/colour',
+                  target='_blank'), '.'
+            ]),
+            H3([Link(app_1.APP_NAME, href=app_1.APP_PATH)]),
+            Markdown(app_1.APP_DESCRIPTION.replace('This app c', 'C')),
+            H3([Link(app_2.APP_NAME, href=app_2.APP_PATH)]),
+            Markdown(app_2.APP_DESCRIPTION.replace('This app c', 'C')),
+        ])
 
 
 if __name__ == '__main__':
