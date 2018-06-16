@@ -130,7 +130,7 @@ LAYOUT = Div([
                className='list-inline-item'),
             Li([
                 A('colour-science.org',
-                  href='http://colour-science.org',
+                  href='https://colour-science.org',
                   target='_blank')
             ],
                className='list-inline-item'),
