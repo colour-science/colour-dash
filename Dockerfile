@@ -15,4 +15,6 @@ RUN mkdir -p /home/dash/colour-dash
 WORKDIR /home/dash/colour-dash
 COPY . /home/dash/colour-dash
 
-CMD ["gunicorn", "-b", "0.0.0.0:8000", "index:SERVER"]
+CMD sh -c 'if [ -z "${SSL_CERTIFICATE}" ]; then \
+    gunicorn -b 0.0.0.0:8000 index:SERVER; else \
+    gunicorn --certfile "${SSL_CERTIFICATE}" --keyfile "${SSL_KEY}" -b 0.0.0.0:8000 index:SERVER; fi'
