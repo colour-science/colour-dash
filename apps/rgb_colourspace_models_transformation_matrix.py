@@ -40,7 +40,7 @@ APP_NAME : unicode
 
 APP_PATH = '/apps/{0}'.format(__name__.split('.')[-1])
 """
-App path, i.e. app url.
+App path, i.e., app url.
 
 APP_PATH : unicode
 """
@@ -140,7 +140,7 @@ LAYOUT = Div([
         className='col-6 mx-auto')
 ])
 """
-App layout, i.e. :class:`Div` class instance.
+App layout, i.e., :class:`Div` class instance.
 
 LAYOUT : Div
 """

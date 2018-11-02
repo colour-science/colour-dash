@@ -74,7 +74,7 @@ NUKE_COLORMATRIX_NODE_TEMPLATE : unicode
 
 def nuke_format_matrix(M, decimals=10):
     """
-    Formats given matrix for usage in *The Foundry Nuke*, i.e. *TCL* code for
+    Formats given matrix for usage in *The Foundry Nuke*, i.e., *TCL* code for
     a *ColorMatrix* node.
 
     Parameters
