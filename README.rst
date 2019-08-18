@@ -43,6 +43,12 @@ Development
     $ pip install dash dash-core-components dash-html-components dash-renderer plotly
     $ python index.py
 
+Code of Conduct
+---------------
+
+The *Code of Conduct*, adapted from the `Contributor Covenant 1.4 <https://www.contributor-covenant.org/version/1/4/code-of-conduct.html>`_,
+is available on the `Code of Conduct <https://www.colour-science.org/code-of-conduct/>`_ page.
+
 About
 -----
 
