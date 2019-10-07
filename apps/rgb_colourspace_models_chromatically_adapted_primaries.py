@@ -9,7 +9,7 @@ from __future__ import division, unicode_literals
 import numpy as np
 import urlparse
 from dash.dependencies import Input, Output
-from dash_core_components import Dropdown, Link, Markdown, Slider, Textarea
+from dash_core_components import Dropdown, Link, Markdown, Slider
 from dash_html_components import A, Code, Div, H3, H5, Li, Pre, Ul
 
 import colour

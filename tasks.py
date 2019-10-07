@@ -21,7 +21,7 @@ __email__ = 'colour-science@googlegroups.com'
 __status__ = 'Production'
 
 __all__ = [
-    'APPLICATION_NAME', 'ORG', 'CONTAINER', 'clean', 'formatting',
+    'APPLICATION_NAME', 'ORG', 'CONTAINER', 'clean', 'quality', 'formatting',
     'docker_build', 'docker_remove', 'docker_run'
 ]
 
@@ -57,6 +57,29 @@ def clean(ctx, bytecode=False):
 
     for pattern in patterns:
         ctx.run("rm -rf {}".format(pattern))
+
+
+@task
+def quality(ctx, flake8=True):
+    """
+    Checks the codebase with *Flake8*.
+
+    Parameters
+    ----------
+    ctx : invoke.context.Context
+        Context.
+    flake8 : bool, optional
+        Whether to check the codebase with *Flake8*.
+
+    Returns
+    -------
+    bool
+        Task success.
+    """
+
+    if flake8:
+        message_box('Checking codebase with "Flake8"...')
+        ctx.run('flake8')
 
 
 @task

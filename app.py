@@ -33,21 +33,21 @@ SERVER = Flask(__name__)
 """
 *Flask* server hosting the *Dash* app.
 
-SERVER : Flask 
+SERVER : Flask
 """
 
 SERVER_URL = os.environ.get('COLOUR_DASH_SERVER')
 """
 Server url used to construct permanent links for the individual apps.
 
-SERVER_URL : unicode 
+SERVER_URL : unicode
 """
 
 APP = dash.Dash(__application_name__, server=SERVER)
 """
 *Dash* app.
 
-APP : Dash 
+APP : Dash
 """
 
 APP.config['suppress_callback_exceptions'] = True
