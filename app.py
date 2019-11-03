@@ -11,8 +11,8 @@ import os
 from flask import Flask
 
 __author__ = 'Colour Developers'
-__copyright__ = 'Copyright (C) 2018 - Colour Developers'
-__license__ = 'New BSD License - http://opensource.org/licenses/BSD-3-Clause'
+__copyright__ = 'Copyright (C) 2018-2019 - Colour Developers'
+__license__ = 'New BSD License - https://opensource.org/licenses/BSD-3-Clause'
 __maintainer__ = 'Colour Developers'
 __email__ = 'colour-science@googlegroups.com'
 __status__ = 'Production'
@@ -21,7 +21,7 @@ __application_name__ = 'Colour - Dash'
 
 __major_version__ = '0'
 __minor_version__ = '1'
-__change_version__ = '9'
+__change_version__ = '10'
 __version__ = '.'.join(
     (__major_version__,
      __minor_version__,
@@ -33,21 +33,21 @@ SERVER = Flask(__name__)
 """
 *Flask* server hosting the *Dash* app.
 
-SERVER : Flask 
+SERVER : Flask
 """
 
 SERVER_URL = os.environ.get('COLOUR_DASH_SERVER')
 """
 Server url used to construct permanent links for the individual apps.
 
-SERVER_URL : unicode 
+SERVER_URL : unicode
 """
 
 APP = dash.Dash(__application_name__, server=SERVER)
 """
 *Dash* app.
 
-APP : Dash 
+APP : Dash
 """
 
 APP.config['suppress_callback_exceptions'] = True

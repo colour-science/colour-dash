@@ -12,11 +12,11 @@ from dash_html_components import A, Div, H3, P
 
 import apps.rgb_colourspace_models_transformation_matrix as app_1
 import apps.rgb_colourspace_models_chromatically_adapted_primaries as app_2
-from app import SERVER, APP
+from app import APP
 
 __author__ = 'Colour Developers'
-__copyright__ = 'Copyright (C) 2018 - Colour Developers'
-__license__ = 'New BSD License - http://opensource.org/licenses/BSD-3-Clause'
+__copyright__ = 'Copyright (C) 2018-2019 - Colour Developers'
+__license__ = 'New BSD License - https://opensource.org/licenses/BSD-3-Clause'
 __maintainer__ = 'Colour Developers'
 __email__ = 'colour-science@googlegroups.com'
 __status__ = 'Production'

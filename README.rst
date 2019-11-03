@@ -6,8 +6,8 @@ Colour - Dash
 Introduction
 ------------
 
-Various colour science `Dash <https://dash.plot.ly/>`_ apps built on top of
-`Colour <https://github.com/colour-science/colour>`_.
+Various colour science `Dash <https://dash.plot.ly/>`__ apps built on top of
+`Colour <https://github.com/colour-science/colour>`__.
 
 Installation
 ------------
@@ -43,10 +43,16 @@ Development
     $ pip install dash dash-core-components dash-html-components dash-renderer plotly
     $ python index.py
 
+Code of Conduct
+---------------
+
+The *Code of Conduct*, adapted from the `Contributor Covenant 1.4 <https://www.contributor-covenant.org/version/1/4/code-of-conduct.html>`__,
+is available on the `Code of Conduct <https://www.colour-science.org/code-of-conduct/>`__ page.
+
 About
 -----
 
 | **Colour - Dash** by Colour Developers
-| Copyright © 2018 – Colour Developers – `colour-science@googlegroups.com <colour-science@googlegroups.com>`_
-| This software is released under terms of New BSD License: http://opensource.org/licenses/BSD-3-Clause
-| `http://github.com/colour-science/colour-dash <http://github.com/colour-science/colour-dash>`_
+| Copyright © 2018-2019 – Colour Developers – `colour-science@googlegroups.com <colour-science@googlegroups.com>`__
+| This software is released under terms of New BSD License: https://opensource.org/licenses/BSD-3-Clause
+| `https://github.com/colour-science/colour-dash <https://github.com/colour-science/colour-dash>`__

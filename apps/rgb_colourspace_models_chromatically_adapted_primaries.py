@@ -9,7 +9,7 @@ from __future__ import division, unicode_literals
 import numpy as np
 import urlparse
 from dash.dependencies import Input, Output
-from dash_core_components import Dropdown, Link, Markdown, Slider, Textarea
+from dash_core_components import Dropdown, Link, Markdown, Slider
 from dash_html_components import A, Code, Div, H3, H5, Li, Pre, Ul
 
 import colour
@@ -19,8 +19,8 @@ from apps.common import (CHROMATIC_ADAPTATION_TRANSFORM_OPTIONS,
                          ILLUMINANTS_OPTIONS, RGB_COLOURSPACES_OPTIONS)
 
 __author__ = 'Colour Developers'
-__copyright__ = 'Copyright (C) 2018 - Colour Developers'
-__license__ = 'New BSD License - http://opensource.org/licenses/BSD-3-Clause'
+__copyright__ = 'Copyright (C) 2018-2019 - Colour Developers'
+__license__ = 'New BSD License - https://opensource.org/licenses/BSD-3-Clause'
 __maintainer__ = 'Colour Developers'
 __email__ = 'colour-science@googlegroups.com'
 __status__ = 'Production'
