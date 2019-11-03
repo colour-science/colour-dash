@@ -43,7 +43,11 @@ Server url used to construct permanent links for the individual apps.
 SERVER_URL : unicode
 """
 
-APP = dash.Dash(__application_name__, server=SERVER)
+APP = dash.Dash(
+    __application_name__,
+    external_scripts=os.environ.get('COLOUR_DASH_JS', '').split(','),
+    external_stylesheets=os.environ.get('COLOUR_DASH_CSS', '').split(','),
+    server=SERVER)
 """
 *Dash* app.
 
@@ -51,13 +55,3 @@ APP : Dash
 """
 
 APP.config['suppress_callback_exceptions'] = True
-
-APP.css.append_css({
-    'external_url':
-    os.environ.get('COLOUR_DASH_CSS', '').split(',')
-})
-
-APP.scripts.append_script({
-    'external_url':
-    os.environ.get('COLOUR_DASH_JS', '').split(',')
-})
