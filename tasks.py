@@ -22,7 +22,7 @@ __status__ = 'Production'
 
 __all__ = [
     'APPLICATION_NAME', 'ORG', 'CONTAINER', 'clean', 'quality', 'formatting',
-    'docker_build', 'docker_remove', 'docker_run'
+    'requirements', 'docker_build', 'docker_remove', 'docker_run'
 ]
 
 APPLICATION_NAME = app.__application_name__
@@ -106,6 +106,27 @@ def formatting(ctx, yapf=False):
 
 
 @task
+def requirements(ctx):
+    """
+    Export the *requirements.txt* file.
+
+    Parameters
+    ----------
+    ctx : invoke.context.Context
+        Context.
+
+    Returns
+    -------
+    bool
+        Task success.
+    """
+
+    message_box('Exporting "requirements.txt" file...')
+    ctx.run('poetry run pip freeze | grep -v '
+            '"github.com/colour-science/colour-dash" > requirements.txt')
+
+
+@task(requirements)
 def docker_build(ctx):
     """
     Builds the *docker* image.

@@ -39,6 +39,13 @@ classifiers = [
 
 [tool.poetry.dependencies]
 python = "^3.5"
+colour-science = "^0.3.14"
+dash = "*"
+dash-core-components = "*"
+dash-html-components = "*"
+dash-renderer = "*"
+gunicorn = "*"
+plotly = "*"
 
 coverage = { version = "*", optional = true }  # Development dependency.
 flake8 = { version = "*", optional = true }  # Development dependency.

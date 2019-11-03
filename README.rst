@@ -36,12 +36,8 @@ Development
 
 .. code-block:: bash
 
-    $ conda create -y -n python-colour-dash
-    $ source activate python-colour-dash
-    $ conda install -y -c conda-forge colour-science
-    $ conda install invoke
-    $ pip install dash dash-core-components dash-html-components dash-renderer plotly
-    $ python index.py
+    $ poetry install
+    $ poetry run invoke docker-run
 
 Code of Conduct
 ---------------

@@ -1,15 +1,11 @@
-FROM continuumio/miniconda
+FROM python:3.6
 
-RUN apt-get update
+WORKDIR /tmp
+COPY ./requirements.txt /tmp
+RUN pip install -r requirements.txt \
+    && rm /tmp/requirements.txt
 
-RUN /opt/conda/bin/conda install -y -c conda-forge colour-science
-RUN pip install \
-    dash \
-    dash-core-components \
-    dash-html-components \
-    dash-renderer \
-    gunicorn \
-    plotly
+ARG CACHE_DATE
 
 RUN mkdir -p /home/dash/colour-dash
 WORKDIR /home/dash/colour-dash
