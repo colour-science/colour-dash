@@ -9,8 +9,8 @@ from __future__ import division, unicode_literals
 import colour
 
 __author__ = 'Colour Developers'
-__copyright__ = 'Copyright (C) 2018 - Colour Developers'
-__license__ = 'New BSD License - http://opensource.org/licenses/BSD-3-Clause'
+__copyright__ = 'Copyright (C) 2018-2019 - Colour Developers'
+__license__ = 'New BSD License - https://opensource.org/licenses/BSD-3-Clause'
 __maintainer__ = 'Colour Developers'
 __email__ = 'colour-science@googlegroups.com'
 __status__ = 'Production'
@@ -28,7 +28,7 @@ RGB_COLOURSPACES_OPTIONS = [{
 """
 *RGB* colourspace options for a :class:`Dropdown` class instance.
 
-RGB_COLOURSPACES_OPTIONS : list 
+RGB_COLOURSPACES_OPTIONS : list
 """
 
 CHROMATIC_ADAPTATION_TRANSFORM_OPTIONS = [{
@@ -39,7 +39,7 @@ CHROMATIC_ADAPTATION_TRANSFORM_OPTIONS = [{
 *Chromatic adaptation transform* options for a :class:`Dropdown` class
 instance.
 
-CHROMATIC_ADAPTATION_TRANSFORM_OPTIONS : list 
+CHROMATIC_ADAPTATION_TRANSFORM_OPTIONS : list
 """
 
 ILLUMINANTS_OPTIONS = [{
@@ -51,7 +51,7 @@ ILLUMINANTS_OPTIONS = [{
 *CIE 1931 2 Degree Standard Observer* illuminant options for a
 :class:`Dropdown`class instance.
 
-ILLUMINANTS_OPTIONS : list 
+ILLUMINANTS_OPTIONS : list
 """
 
 NUKE_COLORMATRIX_NODE_TEMPLATE = """
@@ -90,7 +90,12 @@ def nuke_format_matrix(M, decimals=10):
         *The Foundry Nuke* formatted matrix.
     """
 
-    pretty = lambda x: ' '.join(map('{{: 0.{0}f}}'.format(decimals).format, x))
+    def pretty(x):
+        """
+        Prettify given number.
+        """
+
+        return ' '.join(map('{{: 0.{0}f}}'.format(decimals).format, x))
 
     tcl = '{{{0}}}\n'.format(pretty(M[0]))
     tcl += '     {{{0}}}\n'.format(pretty(M[1]))

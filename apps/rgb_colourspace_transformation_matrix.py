@@ -1,15 +1,15 @@
 # -*- coding: utf-8 -*-
 """
-RGB Colourspace Models Transformation Matrix Application
-========================================================
+RGB Colourspace Transformation Matrix Application
+=================================================
 """
 
 from __future__ import division, unicode_literals
 
-import numpy as np
-import urlparse
+import urllib.parse
+import sys
 from dash.dependencies import Input, Output
-from dash_core_components import Dropdown, Link, Markdown, Slider, Textarea
+from dash_core_components import Dropdown, Link, Markdown, Slider
 from dash_html_components import A, Code, Div, H3, H5, Li, Pre, Ul
 
 import colour
@@ -20,8 +20,8 @@ from apps.common import (CHROMATIC_ADAPTATION_TRANSFORM_OPTIONS,
                          RGB_COLOURSPACES_OPTIONS, nuke_format_matrix)
 
 __author__ = 'Colour Developers'
-__copyright__ = 'Copyright (C) 2018 - Colour Developers'
-__license__ = 'New BSD License - http://opensource.org/licenses/BSD-3-Clause'
+__copyright__ = 'Copyright (C) 2018-2019 - Colour Developers'
+__license__ = 'New BSD License - https://opensource.org/licenses/BSD-3-Clause'
 __maintainer__ = 'Colour Developers'
 __email__ = 'colour-science@googlegroups.com'
 __status__ = 'Production'
@@ -31,7 +31,7 @@ __all__ = [
     'set_RGB_to_RGB_matrix_output'
 ]
 
-APP_NAME = 'RGB Colourspace Models Transformation Matrix'
+APP_NAME = 'RGB Colourspace Transformation Matrix'
 """
 App name.
 
@@ -124,7 +124,7 @@ LAYOUT = Div([
                className='list-inline-item'),
             Li([
                 A('Permalink',
-                  href=urlparse.urljoin(SERVER_URL, APP_PATH),
+                  href=urllib.parse.urljoin(SERVER_URL, APP_PATH),
                   target='_blank')
             ],
                className='list-inline-item'),
@@ -191,7 +191,7 @@ def set_RGB_to_RGB_matrix_output(input_colourspace, output_colourspace,
 
     with colour.utilities.numpy_print_options(
             formatter={'float': ('{{: 0.{0}f}}'.format(decimals)).format},
-            threshold=np.nan):
+            threshold=sys.maxsize):
         if formatter == 'str':
             M = str(M)
         elif formatter == 'repr':
