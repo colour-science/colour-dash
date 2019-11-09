@@ -122,8 +122,9 @@ def requirements(ctx):
     """
 
     message_box('Exporting "requirements.txt" file...')
-    ctx.run('poetry run pip freeze | grep -v '
-            '"github.com/colour-science/colour-dash" > requirements.txt')
+    ctx.run('poetry run pip freeze | '
+            'egrep -v "github.com/colour-science|enum34" '
+            '> requirements.txt')
 
 
 @task(requirements)
