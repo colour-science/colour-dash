@@ -4,8 +4,6 @@ Index
 =====
 """
 
-from __future__ import division, unicode_literals
-
 from dash.dependencies import Input, Output
 from dash_core_components import Link, Location, Markdown
 from dash_html_components import A, Div, H3, P
@@ -15,10 +13,10 @@ import apps.rgb_colourspace_chromatically_adapted_primaries as app_2
 from app import APP, SERVER  # noqa
 
 __author__ = 'Colour Developers'
-__copyright__ = 'Copyright (C) 2018-2019 - Colour Developers'
+__copyright__ = 'Copyright (C) 2018-2020 - Colour Developers'
 __license__ = 'New BSD License - https://opensource.org/licenses/BSD-3-Clause'
 __maintainer__ = 'Colour Developers'
-__email__ = 'colour-science@googlegroups.com'
+__email__ = 'colour-developers@colour-science.org'
 __status__ = 'Production'
 
 __all__ = ['load_app']
