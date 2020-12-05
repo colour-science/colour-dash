@@ -4,8 +4,6 @@ Index
 =====
 """
 
-from __future__ import division, unicode_literals
-
 from dash.dependencies import Input, Output
 from dash_core_components import Link, Location, Markdown
 from dash_html_components import A, Div, H3, P

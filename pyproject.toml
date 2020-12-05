@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "colour-dash"
-version = "0.1.9"
+version = "0.1.12"
 description = "Various colour science Dash apps built on top of Colour"
 license = "BSD-3-Clause"
 authors = [ "Colour Developers <colour-developers@colour-science.org>" ]
@@ -39,8 +39,8 @@ classifiers = [
 ]
 
 [tool.poetry.dependencies]
-python = "^3.5"
-colour-science = "^0.3.14"
+python = "^3.6"
+colour-science = "^0.3.16"
 dash = "*"
 dash-core-components = "*"
 dash-html-components = "*"

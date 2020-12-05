@@ -4,8 +4,6 @@ RGB Colourspace Chromatically Adapted Primaries Application
 ===========================================================
 """
 
-from __future__ import division, unicode_literals
-
 import sys
 import urllib.parse
 from dash.dependencies import Input, Output
@@ -16,7 +14,7 @@ import colour
 
 from app import APP, SERVER_URL
 from apps.common import (CHROMATIC_ADAPTATION_TRANSFORM_OPTIONS,
-                         ILLUMINANTS_OPTIONS, RGB_COLOURSPACES_OPTIONS)
+                         ILLUMINANTS_OPTIONS, RGB_COLOURSPACE_OPTIONS)
 
 __author__ = 'Colour Developers'
 __copyright__ = 'Copyright (C) 2018-2020 - Colour Developers'
@@ -68,8 +66,8 @@ LAYOUT = Div([
         H5(children='Colourspace'),
         Dropdown(
             id='colourspace-{0}'.format(APP_UID),
-            options=RGB_COLOURSPACES_OPTIONS,
-            value=RGB_COLOURSPACES_OPTIONS[0]['value'],
+            options=RGB_COLOURSPACE_OPTIONS,
+            value=RGB_COLOURSPACE_OPTIONS[0]['value'],
             clearable=False,
             className='app-widget'),
         H5(children='Illuminant'),
@@ -180,8 +178,8 @@ def set_primaries_output(colourspace, illuminant,
     P = colour.chromatically_adapted_primaries(
         colour.RGB_COLOURSPACES[colourspace].primaries,
         colour.RGB_COLOURSPACES[colourspace].whitepoint,
-        colour.ILLUMINANTS['CIE 1931 2 Degree Standard Observer'][illuminant],
-        chromatic_adaptation_transform)
+        colour.CCS_ILLUMINANTS['CIE 1931 2 Degree Standard Observer'][
+            illuminant], chromatic_adaptation_transform)
 
     with colour.utilities.numpy_print_options(
             formatter={'float': ('{{: 0.{0}f}}'.format(decimals)).format},

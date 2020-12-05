@@ -4,8 +4,6 @@ RGB Colourspace Transformation Matrix Application
 =================================================
 """
 
-from __future__ import division, unicode_literals
-
 import urllib.parse
 import sys
 from dash.dependencies import Input, Output
@@ -17,7 +15,7 @@ import colour
 from app import APP, SERVER_URL
 from apps.common import (CHROMATIC_ADAPTATION_TRANSFORM_OPTIONS,
                          NUKE_COLORMATRIX_NODE_TEMPLATE,
-                         RGB_COLOURSPACES_OPTIONS, nuke_format_matrix)
+                         RGB_COLOURSPACE_OPTIONS, nuke_format_matrix)
 
 __author__ = 'Colour Developers'
 __copyright__ = 'Copyright (C) 2018-2020 - Colour Developers'
@@ -69,15 +67,15 @@ LAYOUT = Div([
         H5(children='Input Colourspace'),
         Dropdown(
             id='input-colourspace-{0}'.format(APP_UID),
-            options=RGB_COLOURSPACES_OPTIONS,
-            value=RGB_COLOURSPACES_OPTIONS[0]['value'],
+            options=RGB_COLOURSPACE_OPTIONS,
+            value=RGB_COLOURSPACE_OPTIONS[0]['value'],
             clearable=False,
             className='app-widget'),
         H5(children='Output Colourspace'),
         Dropdown(
             id='output-colourspace-{0}'.format(APP_UID),
-            options=RGB_COLOURSPACES_OPTIONS,
-            value=RGB_COLOURSPACES_OPTIONS[0]['value'],
+            options=RGB_COLOURSPACE_OPTIONS,
+            value=RGB_COLOURSPACE_OPTIONS[0]['value'],
             clearable=False,
             className='app-widget'),
         H5(children='Chromatic Adaptation Transform'),
@@ -185,7 +183,7 @@ def set_RGB_to_RGB_matrix_output(input_colourspace, output_colourspace,
         Colour transformation matrix.
     """
 
-    M = colour.RGB_to_RGB_matrix(colour.RGB_COLOURSPACES[input_colourspace],
+    M = colour.matrix_RGB_to_RGB(colour.RGB_COLOURSPACES[input_colourspace],
                                  colour.RGB_COLOURSPACES[output_colourspace],
                                  chromatic_adaptation_transform)
 
