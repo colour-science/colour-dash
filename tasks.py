@@ -51,6 +51,7 @@ def clean(ctx, bytecode=False):
     patterns = []
 
     if bytecode:
+        patterns.append('**/__pycache__')
         patterns.append('**/*.pyc')
 
     for pattern in patterns:
@@ -81,7 +82,7 @@ def quality(ctx, flake8=True):
 
 
 @task
-def formatting(ctx, yapf=False):
+def formatting(ctx, yapf=True):
     """
     Formats the codebase with *Yapf*.
 
@@ -120,8 +121,8 @@ def requirements(ctx):
     """
 
     message_box('Exporting "requirements.txt" file...')
-    ctx.run('poetry run pip freeze | '
-            'egrep -v "github.com/colour-science|enum34" '
+    ctx.run('poetry run pip list --format=freeze | '
+            'egrep -v "github.com/colour-science" '
             '> requirements.txt')
 
 
