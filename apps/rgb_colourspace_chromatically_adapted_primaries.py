@@ -152,7 +152,7 @@ def set_primaries_output(colourspace, illuminant,
     """
     Computes and writes the chromatically adapted *primaries *of the given
     *RGB* colourspace to the given *illuminant* using the given
-    *chromatic adaptation transform*to into the output :class:`Pre` class
+    *chromatic adaptation transform* into the output :class:`Pre` class
     instance.
 
     Parameters
