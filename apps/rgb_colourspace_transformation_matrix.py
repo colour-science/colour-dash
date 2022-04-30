@@ -57,7 +57,7 @@ APP_DESCRIPTION: str = (
 App description.
 """
 
-APP_UID: str = hash(APP_NAME)
+APP_UID: Integer = hash(APP_NAME)
 """
 App unique id.
 """
@@ -140,7 +140,7 @@ LAYOUT: Div = Div(
                                 A(
                                     "Permalink",
                                     href=urllib.parse.urljoin(
-                                        SERVER_URL, APP_PATH
+                                        str(SERVER_URL), APP_PATH
                                     ),
                                     target="_blank",
                                 )
@@ -228,9 +228,9 @@ def set_RGB_to_RGB_matrix_output(
         threshold=sys.maxsize,
     ):
         if formatter == "str":
-            M = str(M)
+            M_f = str(M)
         elif formatter == "repr":
-            M = repr(M)
+            M_f = repr(M)
         else:
 
             def slugify(string: str) -> str:
@@ -243,7 +243,7 @@ def set_RGB_to_RGB_matrix_output(
                 string = re.sub(pattern, "_", string)
                 return string
 
-            M = NUKE_COLORMATRIX_NODE_TEMPLATE.format(
+            M_f = NUKE_COLORMATRIX_NODE_TEMPLATE.format(
                 nuke_format_matrix(M, decimals),
                 (
                     f"{slugify(input_colourspace)}"
@@ -251,4 +251,5 @@ def set_RGB_to_RGB_matrix_output(
                     f"{slugify(output_colourspace)}"
                 ),
             )
-        return M
+
+        return M_f

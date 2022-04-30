@@ -55,7 +55,7 @@ APP_DESCRIPTION: str = (
 App description.
 """
 
-APP_UID: str = hash(APP_NAME)
+APP_UID: Integer = hash(APP_NAME)
 """
 App unique id.
 """
@@ -132,7 +132,7 @@ LAYOUT: Div = Div(
                                 A(
                                     "Permalink",
                                     href=urllib.parse.urljoin(
-                                        SERVER_URL, APP_PATH
+                                        str(SERVER_URL), APP_PATH
                                     ),
                                     target="_blank",
                                 )
@@ -221,8 +221,8 @@ def set_primaries_output(
         threshold=sys.maxsize,
     ):
         if formatter == "str":
-            P = str(P)
+            P_f = str(P)
         elif formatter == "repr":
-            P = repr(P)
+            P_f = repr(P)
 
-        return P
+        return P_f

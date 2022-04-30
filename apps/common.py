@@ -5,7 +5,7 @@ Common
 
 import colour
 
-from colour.hints import ArrayLike, Dict, Integer, List
+from colour.hints import ArrayLike, Dict, Integer, Iterable, List
 
 __author__ = "Colour Developers"
 __copyright__ = "Copyright 2018 Colour Developers"
@@ -87,10 +87,10 @@ def nuke_format_matrix(M: ArrayLike, decimals: Integer = 10) -> str:
         *The Foundry Nuke* formatted matrix.
     """
 
-    def pretty(x: ArrayLike) -> str:
-        """
-        Prettify given number.
-        """
+    M = colour.utilities.as_float_array(M)
+
+    def pretty(x: Iterable) -> str:
+        """Prettify given number."""
 
         return " ".join(map(f"{{: 0.{decimals}f}}".format, x))
 
