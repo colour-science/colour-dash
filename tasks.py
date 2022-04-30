@@ -1,225 +1,237 @@
-# -*- coding: utf-8 -*-
 """
 Invoke - Tasks
 ==============
 """
 
-from invoke import task
+from invoke import Context, task
 from invoke.exceptions import Failure
+
+from colour.hints import Boolean
 
 from colour.utilities import message_box
 
 import app
 
-__author__ = 'Colour Developers'
-__copyright__ = 'Copyright (C) 2018-2020 - Colour Developers'
-__license__ = 'New BSD License - https://opensource.org/licenses/BSD-3-Clause'
-__maintainer__ = 'Colour Developers'
-__email__ = 'colour-developers@colour-science.org'
-__status__ = 'Production'
+__author__ = "Colour Developers"
+__copyright__ = "Copyright 2018 Colour Developers"
+__license__ = "New BSD License - https://opensource.org/licenses/BSD-3-Clause"
+__maintainer__ = "Colour Developers"
+__email__ = "colour-developers@colour-science.org"
+__status__ = "Production"
 
 __all__ = [
-    'APPLICATION_NAME', 'ORG', 'CONTAINER', 'clean', 'quality', 'formatting',
-    'requirements', 'docker_build', 'docker_remove', 'docker_run'
+    "APPLICATION_NAME",
+    "ORG",
+    "CONTAINER",
+    "clean",
+    "quality",
+    "precommit",
+    "requirements",
+    "docker_build",
+    "docker_remove",
+    "docker_run",
 ]
 
-APPLICATION_NAME = app.__application_name__
+APPLICATION_NAME: str = app.__application_name__
 
-ORG = 'colourscience'
+ORG: str = "colourscience"
 
-CONTAINER = APPLICATION_NAME.replace(' ', '').lower()
+CONTAINER: str = APPLICATION_NAME.replace(" ", "").lower()
+
+
+def _patch_invoke_annotations_support():
+    """See https://github.com/pyinvoke/invoke/issues/357."""
+
+    import invoke
+    from unittest.mock import patch
+    from inspect import getfullargspec, ArgSpec
+
+    def patched_inspect_getargspec(function):
+        spec = getfullargspec(function)
+        return ArgSpec(*spec[0:4])
+
+    org_task_argspec = invoke.tasks.Task.argspec
+
+    def patched_task_argspec(*args, **kwargs):
+        with patch(
+            target="inspect.getargspec", new=patched_inspect_getargspec
+        ):
+            return org_task_argspec(*args, **kwargs)
+
+    invoke.tasks.Task.argspec = patched_task_argspec
+
+
+_patch_invoke_annotations_support()
 
 
 @task
 def clean(ctx, bytecode=False):
     """
-    Cleans the project.
+    Clean the project.
 
     Parameters
     ----------
     bytecode : bool, optional
         Whether to clean the bytecode files, e.g. *.pyc* files.
-
-    Returns
-    -------
-    bool
-        Task success.
     """
 
-    message_box('Cleaning project...')
+    message_box("Cleaning project...")
 
     patterns = []
 
     if bytecode:
-        patterns.append('**/*.pyc')
+        patterns.append("**/__pycache__")
+        patterns.append("**/*.pyc")
 
     for pattern in patterns:
-        ctx.run("rm -rf {}".format(pattern))
+        ctx.run(f"rm -rf {pattern}")
 
 
 @task
-def quality(ctx, flake8=True):
+def quality(
+    ctx: Context,
+    mypy: Boolean = True,
+):
     """
-    Checks the codebase with *Flake8*.
+    Check the codebase with *Mypy* and lints various *restructuredText* files
+    with *rst-lint*.
 
     Parameters
     ----------
-    ctx : invoke.context.Context
+    ctx
         Context.
-    flake8 : bool, optional
-        Whether to check the codebase with *Flake8*.
-
-    Returns
-    -------
-    bool
-        Task success.
+    mypy
+        Whether to check the codebase with *Mypy*.
     """
 
-    if flake8:
-        message_box('Checking codebase with "Flake8"...')
-        ctx.run('flake8')
+    if mypy:
+        message_box('Checking codebase with "Mypy"...')
+        ctx.run(
+            "mypy "
+            "--install-types "
+            "--non-interactive "
+            "--show-error-codes "
+            "--warn-unused-ignores "
+            "--warn-redundant-casts "
+            "app.py index.py apps"
+            "|| true"
+        )
 
 
 @task
-def formatting(ctx, yapf=False):
+def precommit(ctx: Context):
     """
-    Formats the codebase with *Yapf*.
+    Run the "pre-commit" hooks on the codebase.
 
     Parameters
     ----------
-    ctx : invoke.context.Context
+    ctx
         Context.
-    yapf : bool, optional
-        Whether to format the codebase with *Yapf*.
-
-    Returns
-    -------
-    bool
-        Task success.
     """
 
-    if yapf:
-        message_box('Formatting codebase with "Yapf"...')
-        ctx.run('yapf -p -i -r .')
+    message_box('Running "pre-commit" hooks on the codebase...')
+    ctx.run("pre-commit run --all-files")
 
 
 @task
-def requirements(ctx):
+def requirements(ctx: Context):
     """
-    Exports the *requirements.txt* file.
+    Export the *requirements.txt* file.
 
     Parameters
     ----------
-    ctx : invoke.context.Context
+    ctx
         Context.
-
-    Returns
-    -------
-    bool
-        Task success.
     """
 
     message_box('Exporting "requirements.txt" file...')
-    ctx.run('poetry run pip freeze | '
-            'egrep -v "github.com/colour-science|enum34" '
-            '> requirements.txt')
+    ctx.run(
+        "poetry run pip list --format=freeze | "
+        'egrep -v "github.com/colour-science" '
+        "> requirements.txt"
+    )
 
 
 @task(requirements)
-def docker_build(ctx):
+def docker_build(ctx: Context):
     """
-    Builds the *docker* image.
+    Build the *docker* image.
 
     Parameters
     ----------
-    ctx : invoke.context.Context
+    ctx
         Context.
-
-    Returns
-    -------
-    bool
-        Task success.
     """
 
     message_box('Building "docker" image...')
 
-    ctx.run('docker build -t {0}/{1}:latest -t {0}/{1}:v{2} .'.format(
-        ORG, CONTAINER, app.__version__))
+    ctx.run(
+        "docker build -t {0}/{1}:latest -t {0}/{1}:v{2} .".format(
+            ORG, CONTAINER, app.__version__
+        )
+    )
 
 
 @task
-def docker_remove(ctx):
+def docker_remove(ctx: Context):
     """
-    Stops and remove the *docker* container.
+    Stop and remove the *docker* container.
 
     Parameters
     ----------
-    ctx : invoke.context.Context
+    ctx
         Context.
-
-    Returns
-    -------
-    bool
-        Task success.
     """
 
     message_box('Stopping "docker" container...')
     try:
-        ctx.run('docker stop {0}'.format(CONTAINER))
+        ctx.run(f"docker stop {CONTAINER}")
     except Failure:
         pass
 
     message_box('Removing "docker" container...')
     try:
-        ctx.run('docker rm {0}'.format(CONTAINER))
+        ctx.run(f"docker rm {CONTAINER}")
     except Failure:
         pass
 
 
 @task(docker_remove, docker_build)
-def docker_run(ctx):
+def docker_run(ctx: Context):
     """
-    Runs the *docker* container.
+    Run the *docker* container.
 
     Parameters
     ----------
-    ctx : invoke.context.Context
+    ctx
         Context.
-
-    Returns
-    -------
-    bool
-        Task success.
     """
 
     message_box('Running "docker" container...')
-    ctx.run('docker run -d '
-            '--name={1} '
-            '-e COLOUR_DASH_SERVER=https://www.colour-science.org:8010/ '
-            '-e COLOUR_DASH_CSS='
-            'https://www.colour-science.org/assets/css/all-nocdn.css '
-            '-e COLOUR_DASH_JS='
-            'https://www.colour-science.org/assets/js/analytics.js,'
-            'https://cdnjs.cloudflare.com/ajax/libs/iframe-resizer/3.6.1/'
-            'iframeResizer.contentWindow.min.js '
-            '-p 8010:8000 {0}/{1}'.format(ORG, CONTAINER))
+    ctx.run(
+        "docker run -d "
+        "--name={1} "
+        "-e COLOUR_DASH_SERVER=https://www.colour-science.org:8010/ "
+        "-e COLOUR_DASH_CSS="
+        "https://www.colour-science.org/assets/css/all-nocdn.css "
+        "-e COLOUR_DASH_JS="
+        "https://www.colour-science.org/assets/js/analytics.js,"
+        "https://cdnjs.cloudflare.com/ajax/libs/iframe-resizer/3.6.1/"
+        "iframeResizer.contentWindow.min.js "
+        "-p 8010:8000 {0}/{1}".format(ORG, CONTAINER)
+    )
 
 
-@task
-def docker_push(ctx):
+@task(clean, quality, precommit, docker_run)
+def docker_push(ctx: Context):
     """
-    Pushes the *docker* container.
+    Push the *docker* container.
 
     Parameters
     ----------
-    ctx : invoke.context.Context
+    ctx
         Context.
-
-    Returns
-    -------
-    bool
-        Task success.
     """
 
     message_box('Pushing "docker" container...')
-    ctx.run('docker push {0}/{1}'.format(ORG, CONTAINER))
+    ctx.run(f"docker push {ORG}/{CONTAINER}")
