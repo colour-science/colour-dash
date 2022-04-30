@@ -5,7 +5,9 @@ Application
 
 import dash
 import os
+from colour.hints import Optional
 from flask import Flask
+
 
 __author__ = "Colour Developers"
 __copyright__ = "Copyright 2018 Colour Developers"
@@ -18,7 +20,7 @@ __application_name__ = "Colour - Dash"
 
 __major_version__ = "0"
 __minor_version__ = "1"
-__change_version__ = "13"
+__change_version__ = "14"
 __version__ = ".".join(
     (__major_version__, __minor_version__, __change_version__)
 )
@@ -30,7 +32,7 @@ SERVER: Flask = Flask(__name__)
 *Flask* server hosting the *Dash* app.
 """
 
-SERVER_URL: str = os.environ.get("COLOUR_DASH_SERVER")
+SERVER_URL: Optional[str] = os.environ.get("COLOUR_DASH_SERVER")
 """
 Server url used to construct permanent links for the individual apps.
 """

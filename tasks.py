@@ -165,11 +165,12 @@ def docker_build(ctx: Context):
 
     message_box('Building "docker" image...')
 
-    ctx.run(
-        "docker build -t {0}/{1}:latest -t {0}/{1}:v{2} .".format(
-            ORG, CONTAINER, app.__version__
+    for platform in ("arm64", "amd64"):
+        ctx.run(
+            f"docker build --platform=linux/{platform} "
+            f"-t {ORG}/{CONTAINER}:latest-{platform} "
+            f"-t {ORG}/{CONTAINER}:v{app.__version__}-{platform} ."
         )
-    )
 
 
 @task
@@ -210,7 +211,7 @@ def docker_run(ctx: Context):
     message_box('Running "docker" container...')
     ctx.run(
         "docker run -d "
-        "--name={1} "
+        f"--name={CONTAINER} "
         "-e COLOUR_DASH_SERVER=https://www.colour-science.org:8010/ "
         "-e COLOUR_DASH_CSS="
         "https://www.colour-science.org/assets/css/all-nocdn.css "
@@ -218,7 +219,7 @@ def docker_run(ctx: Context):
         "https://www.colour-science.org/assets/js/analytics.js,"
         "https://cdnjs.cloudflare.com/ajax/libs/iframe-resizer/3.6.1/"
         "iframeResizer.contentWindow.min.js "
-        "-p 8010:8000 {0}/{1}".format(ORG, CONTAINER)
+        f"-p 8010:8000 {ORG}/{CONTAINER}"
     )
 
 
@@ -234,4 +235,4 @@ def docker_push(ctx: Context):
     """
 
     message_box('Pushing "docker" container...')
-    ctx.run(f"docker push {ORG}/{CONTAINER}")
+    ctx.run(f"docker push --all-tags {ORG}/{CONTAINER}")
