@@ -3,6 +3,8 @@ Invoke - Tasks
 ==============
 """
 
+import platform
+
 from invoke import Context, task
 from invoke.exceptions import Failure
 
@@ -165,12 +167,12 @@ def docker_build(ctx: Context):
 
     message_box('Building "docker" image...')
 
-    for platform in ("arm64", "amd64"):
+    for archictecture in ("arm64", "amd64"):
         ctx.run(
-            f"docker build --platform=linux/{platform} "
+            f"docker build --platform=linux/{archictecture} "
             f"-t {ORG}/{CONTAINER}:latest "
-            f"-t {ORG}/{CONTAINER}:latest-{platform} "
-            f"-t {ORG}/{CONTAINER}:v{app.__version__}-{platform} ."
+            f"-t {ORG}/{CONTAINER}:latest-{archictecture} "
+            f"-t {ORG}/{CONTAINER}:v{app.__version__}-{archictecture} ."
         )
 
 
@@ -220,7 +222,7 @@ def docker_run(ctx: Context):
         "https://www.colour-science.org/assets/js/analytics.js,"
         "https://cdnjs.cloudflare.com/ajax/libs/iframe-resizer/3.6.1/"
         "iframeResizer.contentWindow.min.js "
-        f"-p 8010:8000 {ORG}/{CONTAINER}"
+        f"-p 8010:8000 {ORG}/{CONTAINER}:latest-{platform.uname()[4].lower()}"
     )
 
 
