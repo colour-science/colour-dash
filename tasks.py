@@ -167,12 +167,12 @@ def docker_build(ctx: Context):
 
     message_box('Building "docker" image...')
 
-    for archictecture in ("arm64", "amd64"):
+    for architecture in ("arm64", "amd64"):
         ctx.run(
-            f"docker build --platform=linux/{archictecture} "
+            f"docker build --platform=linux/{architecture} "
             f"-t {ORG}/{CONTAINER}:latest "
-            f"-t {ORG}/{CONTAINER}:latest-{archictecture} "
-            f"-t {ORG}/{CONTAINER}:v{app.__version__}-{archictecture} ."
+            f"-t {ORG}/{CONTAINER}:latest-{architecture} "
+            f"-t {ORG}/{CONTAINER}:v{app.__version__}-{architecture} ."
         )
 
 
