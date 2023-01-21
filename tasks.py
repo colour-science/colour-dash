@@ -4,15 +4,18 @@ Invoke - Tasks
 """
 
 import platform
-
-from invoke import Context, task
 from invoke.exceptions import Failure
-
-from colour.hints import Boolean
 
 from colour.utilities import message_box
 
 import app
+
+import inspect
+
+if not hasattr(inspect, "getargspec"):
+    inspect.getargspec = inspect.getfullargspec  # pyright: ignore
+
+from invoke import Context, task
 
 __author__ = "Colour Developers"
 __copyright__ = "Copyright 2018 Colour Developers"
@@ -41,33 +44,8 @@ ORG: str = "colourscience"
 CONTAINER: str = APPLICATION_NAME.replace(" ", "").lower()
 
 
-def _patch_invoke_annotations_support():
-    """See https://github.com/pyinvoke/invoke/issues/357."""
-
-    import invoke
-    from unittest.mock import patch
-    from inspect import getfullargspec, ArgSpec
-
-    def patched_inspect_getargspec(function):
-        spec = getfullargspec(function)
-        return ArgSpec(*spec[0:4])
-
-    org_task_argspec = invoke.tasks.Task.argspec
-
-    def patched_task_argspec(*args, **kwargs):
-        with patch(
-            target="inspect.getargspec", new=patched_inspect_getargspec
-        ):
-            return org_task_argspec(*args, **kwargs)
-
-    invoke.tasks.Task.argspec = patched_task_argspec
-
-
-_patch_invoke_annotations_support()
-
-
 @task
-def clean(ctx, bytecode=False):
+def clean(ctx: Context, bytecode: bool = False):
     """
     Clean the project.
 
@@ -92,32 +70,22 @@ def clean(ctx, bytecode=False):
 @task
 def quality(
     ctx: Context,
-    mypy: Boolean = True,
+    pyright: bool = True,
 ):
     """
-    Check the codebase with *Mypy* and lints various *restructuredText* files
-    with *rst-lint*.
+    Check the codebase with *Pyright*.
 
     Parameters
     ----------
     ctx
         Context.
-    mypy
-        Whether to check the codebase with *Mypy*.
+    pyright
+        Whether to check the codebase with *Pyright*.
     """
 
-    if mypy:
-        message_box('Checking codebase with "Mypy"...')
-        ctx.run(
-            "mypy "
-            "--install-types "
-            "--non-interactive "
-            "--show-error-codes "
-            "--warn-unused-ignores "
-            "--warn-redundant-casts "
-            "app.py index.py apps"
-            "|| true"
-        )
+    if pyright:
+        message_box('Checking codebase with "Pyright"...')
+        ctx.run("pyright --skipunannotated")
 
 
 @task

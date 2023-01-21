@@ -39,46 +39,51 @@ classifiers = [
 ]
 
 [tool.poetry.dependencies]
-python = ">= 3.8, < 3.11"
-colour-science = ">= 0.4.0"
+python = ">= 3.9, < 3.12"
+colour-science = ">= 0.4.2"
 imageio = ">= 2, < 3"
-numpy = ">= 1.19, < 2"
-scipy = ">= 1.5, < 2"
+numpy = ">= 1.20, < 2"
+scipy = ">= 1.7, < 2"
 dash = "*"
 dash-renderer = "*"
 gunicorn = "*"
 plotly = "*"
 
 black = { version = "*", optional = true }  # Development dependency.
+blackdoc = { version = "*", optional = true }  # Development dependency.
 coverage = { version = "!= 6.3", optional = true }  # Development dependency.
 coveralls = { version = "*", optional = true }  # Development dependency.
 flake8 = { version = "*", optional = true }  # Development dependency.
 flynt = { version = "*", optional = true }  # Development dependency.
 invoke = { version = "*", optional = true }  # Development dependency.
-mypy = { version = "*", optional = true }  # Development dependency.
 pre-commit = { version = "*", optional = true }  # Development dependency.
 pydocstyle = { version = "*", optional = true }  # Development dependency.
+pyright = { version = "*", optional = true }  # Development dependency.
 pytest = { version = "*", optional = true }  # Development dependency.
 pytest-cov = { version = "*", optional = true }  # Development dependency.
+pytest-xdist = { version = "*", optional = true }  # Development dependency.
 pyupgrade = { version = "*", optional = true }  # Development dependency.
 
 [tool.poetry.dev-dependencies]
 black = "*"
+blackdoc = "*"
 coverage = "*"
 coveralls = "*"
 flake8 = "*"
 flynt = "*"
 invoke = "*"
-mypy = "*"
 pre-commit = "*"
 pydocstyle = "*"
+pyright = "*"
 pytest = "*"
 pytest-cov = "*"
+pytest-xdist = "*"
 pyupgrade = "*"
 
 [tool.poetry.extras]
 development = [
     "black",
+    "blackdoc",
     "coverage",
     "coveralls",
     "flake8",
@@ -87,8 +92,10 @@ development = [
     "mypy",
     "pre-commit",
     "pydocstyle",
+    "pyright",
     "pytest",
     "pytest-cov",
+    "pytest-xdist",
     "pyupgrade",
 ]
 
@@ -97,7 +104,6 @@ line-length = 79
 exclude = '''
 /(
     \.git
-  | \.mypy_cache
   | build
   | dist
 )/
@@ -106,13 +112,18 @@ exclude = '''
 [tool.flynt]
 line_length=999
 
-[tool.mypy]
-plugins = "numpy.typing.mypy_plugin"
-ignore_missing_imports = true
-
 [tool.pydocstyle]
 convention = "numpy"
 add-ignore = "D104,D200,D202,D205,D301,D400"
+
+[tool.pyright]
+reportMissingImports = false
+reportMissingModuleSource = false
+reportUnboundVariable = false
+reportUnnecessaryCast = true
+reportUnnecessaryTypeIgnoreComment = true
+reportUnsupportedDunderAll = false
+reportUnusedExpression = false
 
 [build-system]
 requires = [ "poetry_core>=1.0.0" ]
