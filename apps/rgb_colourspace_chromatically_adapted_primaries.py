@@ -9,8 +9,9 @@ from dash.dcc import Dropdown, Link, Markdown, Slider
 from dash.dependencies import Input, Output
 from dash.html import A, Code, Div, H3, H5, Li, Pre, Ul
 
-import colour
-from colour.hints import Integer
+from colour.colorimetry import CCS_ILLUMINANTS
+from colour.models import RGB_COLOURSPACES, chromatically_adapted_primaries
+from colour.utilities import numpy_print_options
 
 from app import APP, SERVER_URL
 from apps.common import (
@@ -55,7 +56,7 @@ APP_DESCRIPTION: str = (
 App description.
 """
 
-APP_UID: Integer = hash(APP_NAME)
+APP_UID: int = hash(APP_NAME)
 """
 App unique id.
 """
@@ -179,7 +180,7 @@ def set_primaries_output(
     illuminant: str,
     chromatic_adaptation_transform: str,
     formatter: str,
-    decimals: Integer,
+    decimals: int,
 ) -> str:
     """
     Compute and write the chromatically adapted *primaries *of the given
@@ -207,16 +208,14 @@ def set_primaries_output(
         Chromatically adapted *primaries*.
     """
 
-    P = colour.chromatically_adapted_primaries(
-        colour.RGB_COLOURSPACES[colourspace].primaries,
-        colour.RGB_COLOURSPACES[colourspace].whitepoint,
-        colour.CCS_ILLUMINANTS["CIE 1931 2 Degree Standard Observer"][
-            illuminant
-        ],
+    P = chromatically_adapted_primaries(
+        RGB_COLOURSPACES[colourspace].primaries,
+        RGB_COLOURSPACES[colourspace].whitepoint,
+        CCS_ILLUMINANTS["CIE 1931 2 Degree Standard Observer"][illuminant],
         chromatic_adaptation_transform,
     )
 
-    with colour.utilities.numpy_print_options(
+    with numpy_print_options(
         formatter={"float": f"{{: 0.{decimals}f}}".format},
         threshold=sys.maxsize,
     ):

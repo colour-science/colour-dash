@@ -3,9 +3,12 @@ Common
 ======
 """
 
-import colour
+from colour.adaptation import CHROMATIC_ADAPTATION_TRANSFORMS
+from colour.colorimetry import CCS_ILLUMINANTS
+from colour.models import RGB_COLOURSPACES
+from colour.utilities import as_float_array
 
-from colour.hints import ArrayLike, Dict, Integer, Iterable, List
+from colour.hints import ArrayLike, Dict, Iterable, List
 
 __author__ = "Colour Developers"
 __copyright__ = "Copyright 2018 Colour Developers"
@@ -24,7 +27,7 @@ __all__ = [
 
 RGB_COLOURSPACE_OPTIONS: List[Dict] = [
     {"label": key, "value": key}
-    for key in sorted(colour.RGB_COLOURSPACES.keys())
+    for key in sorted(RGB_COLOURSPACES.keys())
     if key not in ("aces", "adobe1998", "prophoto")
 ]
 """
@@ -33,7 +36,7 @@ RGB_COLOURSPACE_OPTIONS: List[Dict] = [
 
 CHROMATIC_ADAPTATION_TRANSFORM_OPTIONS: List[Dict] = [
     {"label": key, "value": key}
-    for key in sorted(colour.CHROMATIC_ADAPTATION_TRANSFORMS.keys())
+    for key in sorted(CHROMATIC_ADAPTATION_TRANSFORMS.keys())
 ]
 """
 *Chromatic adaptation transform* options for a :class:`Dropdown` class
@@ -43,7 +46,7 @@ instance.
 ILLUMINANTS_OPTIONS: List[Dict] = [
     {"label": key, "value": key}
     for key in sorted(
-        colour.CCS_ILLUMINANTS["CIE 1931 2 Degree Standard Observer"].keys()
+        CCS_ILLUMINANTS["CIE 1931 2 Degree Standard Observer"].keys()
     )
 ]
 """
@@ -69,7 +72,7 @@ ColorMatrix {{
 """
 
 
-def nuke_format_matrix(M: ArrayLike, decimals: Integer = 10) -> str:
+def nuke_format_matrix(M: ArrayLike, decimals: int = 10) -> str:
     """
     Format given matrix for usage in *The Foundry Nuke*, i.e. *TCL* code for
     a *ColorMatrix* node.
@@ -87,7 +90,7 @@ def nuke_format_matrix(M: ArrayLike, decimals: Integer = 10) -> str:
         *The Foundry Nuke* formatted matrix.
     """
 
-    M = colour.utilities.as_float_array(M)
+    M = as_float_array(M)
 
     def pretty(x: Iterable) -> str:
         """Prettify given number."""

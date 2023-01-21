@@ -10,8 +10,8 @@ from dash.dcc import Dropdown, Link, Markdown, Slider
 from dash.dependencies import Input, Output
 from dash.html import A, Code, Div, H3, H5, Li, Pre, Ul
 
-import colour
-from colour.hints import Integer
+from colour.models import RGB_COLOURSPACES, matrix_RGB_to_RGB
+from colour.utilities import numpy_print_options
 
 from app import APP, SERVER_URL
 from apps.common import (
@@ -57,7 +57,7 @@ APP_DESCRIPTION: str = (
 App description.
 """
 
-APP_UID: Integer = hash(APP_NAME)
+APP_UID: int = hash(APP_NAME)
 """
 App unique id.
 """
@@ -190,7 +190,7 @@ def set_RGB_to_RGB_matrix_output(
     output_colourspace: str,
     chromatic_adaptation_transform: str,
     formatter: str,
-    decimals: Integer,
+    decimals: int,
 ) -> str:
     """
     Compute and write the colour transformation matrix from given input *RGB*
@@ -217,13 +217,13 @@ def set_RGB_to_RGB_matrix_output(
         Colour transformation matrix.
     """
 
-    M = colour.matrix_RGB_to_RGB(
-        colour.RGB_COLOURSPACES[input_colourspace],
-        colour.RGB_COLOURSPACES[output_colourspace],
+    M = matrix_RGB_to_RGB(
+        RGB_COLOURSPACES[input_colourspace],
+        RGB_COLOURSPACES[output_colourspace],
         chromatic_adaptation_transform,
     )
 
-    with colour.utilities.numpy_print_options(
+    with numpy_print_options(
         formatter={"float": f"{{: 0.{decimals}f}}".format},
         threshold=sys.maxsize,
     ):
