@@ -6,9 +6,11 @@ RGB Colourspace Transformation Matrix Application
 import urllib.parse
 import re
 import sys
-from dash.dcc import Dropdown, Link, Markdown, Slider
+from contextlib import suppress
+from dash.dcc import Dropdown, Location, Link, Markdown, Slider
 from dash.dependencies import Input, Output
 from dash.html import A, Code, Div, H3, H5, Li, Pre, Ul
+from urllib.parse import parse_qs, urlencode, urlparse
 
 from colour.models import RGB_COLOURSPACES, matrix_RGB_to_RGB
 from colour.utilities import numpy_print_options
@@ -33,8 +35,11 @@ __all__ = [
     "APP_NAME",
     "APP_DESCRIPTION",
     "APP_UID",
+    "DEFAULT_STATE",
     "LAYOUT",
     "set_RGB_to_RGB_matrix_output",
+    "update_state_on_url_query_change",
+    "update_url_query_on_state_change",
 ]
 
 APP_NAME: str = "RGB Colourspace Transformation Matrix"
@@ -62,8 +67,22 @@ APP_UID: int = hash(APP_NAME)
 App unique id.
 """
 
+DEFAULT_STATE = {
+    "input_colourspace": RGB_COLOURSPACE_OPTIONS[0]["value"],
+    "output_colourspace": RGB_COLOURSPACE_OPTIONS[0]["value"],
+    "chromatic_adaptation_transform": CHROMATIC_ADAPTATION_TRANSFORM_OPTIONS[
+        0
+    ]["value"],
+    "formatter": "str",
+    "decimals": 10,
+}
+"""
+Default App state.
+"""
+
 LAYOUT: Div = Div(
     [
+        Location(id=f"url-{APP_UID}", refresh=False),
         H3([Link(APP_NAME, href=APP_PATH)], className="text-center"),
         Div(
             [
@@ -72,7 +91,7 @@ LAYOUT: Div = Div(
                 Dropdown(
                     id=f"input-colourspace-{APP_UID}",
                     options=RGB_COLOURSPACE_OPTIONS,
-                    value=RGB_COLOURSPACE_OPTIONS[0]["value"],
+                    value=DEFAULT_STATE["input_colourspace"],
                     clearable=False,
                     className="app-widget",
                 ),
@@ -80,7 +99,7 @@ LAYOUT: Div = Div(
                 Dropdown(
                     id=f"output-colourspace-{APP_UID}",
                     options=RGB_COLOURSPACE_OPTIONS,
-                    value=RGB_COLOURSPACE_OPTIONS[0]["value"],
+                    value=DEFAULT_STATE["output_colourspace"],
                     clearable=False,
                     className="app-widget",
                 ),
@@ -88,7 +107,7 @@ LAYOUT: Div = Div(
                 Dropdown(
                     id=f"chromatic-adaptation-transform-{APP_UID}",
                     options=CHROMATIC_ADAPTATION_TRANSFORM_OPTIONS,
-                    value=CHROMATIC_ADAPTATION_TRANSFORM_OPTIONS[0]["value"],
+                    value=DEFAULT_STATE["chromatic_adaptation_transform"],
                     clearable=False,
                     className="app-widget",
                 ),
@@ -100,7 +119,7 @@ LAYOUT: Div = Div(
                         {"label": "repr", "value": "repr"},
                         {"label": "Nuke", "value": "Nuke"},
                     ],
-                    value="str",
+                    value=DEFAULT_STATE["formatter"],
                     clearable=False,
                     className="app-widget",
                 ),
@@ -110,7 +129,7 @@ LAYOUT: Div = Div(
                     min=1,
                     max=15,
                     step=1,
-                    value=10,
+                    value=DEFAULT_STATE["decimals"],
                     marks={i + 1: str(i + 1) for i in range(15)},
                     className="app-widget",
                 ),
@@ -253,3 +272,105 @@ def set_RGB_to_RGB_matrix_output(
             )
 
         return M_f
+
+
+@APP.callback(
+    [
+        Output(f"input-colourspace-{APP_UID}", "value"),
+        Output(f"output-colourspace-{APP_UID}", "value"),
+        Output(f"chromatic-adaptation-transform-{APP_UID}", "value"),
+        Output(f"formatter-{APP_UID}", "value"),
+        Output(f"decimals-{APP_UID}", "value"),
+    ],
+    [
+        Input("url", "href"),
+    ],
+)
+def update_state_on_url_query_change(href: str) -> tuple:
+    """
+    Update the App state on URL query change.
+
+    Parameters
+    ----------
+    href
+        URL.
+
+    Returns
+    -------
+    :class:`tuple`
+        App state.
+    """
+
+    parse_result = urlparse(href)
+
+    query = parse_qs(parse_result.query)
+
+    def value_from_query(value: str) -> str:
+        """Return the given value from the query."""
+
+        with suppress(KeyError):
+            return query[value][0]
+
+        return DEFAULT_STATE[value.replace("-", "_")]
+
+    state = (
+        value_from_query("input-colourspace"),
+        value_from_query("output-colourspace"),
+        value_from_query("chromatic-adaptation-transform"),
+        value_from_query("formatter"),
+        int(value_from_query("decimals")),
+    )
+
+    return state
+
+
+@APP.callback(
+    Output(f"url-{APP_UID}", "search"),
+    [
+        Input(f"input-colourspace-{APP_UID}", "value"),
+        Input(f"output-colourspace-{APP_UID}", "value"),
+        Input(f"chromatic-adaptation-transform-{APP_UID}", "value"),
+        Input(f"formatter-{APP_UID}", "value"),
+        Input(f"decimals-{APP_UID}", "value"),
+    ],
+)
+def update_url_query_on_state_change(
+    input_colourspace: str,
+    output_colourspace: str,
+    chromatic_adaptation_transform: str,
+    formatter: str,
+    decimals: int,
+) -> str:
+    """
+    Update the URL query on App state change.
+
+    Parameters
+    ----------
+    input_colourspace
+        Input *RGB* colourspace.
+    output_colourspace
+        Output *RGB* colourspace.
+    chromatic_adaptation_transform
+        *Chromatic adaptation transform* to use.
+    formatter
+        Formatter to use, :func:`str`, :func:`repr` or *Nuke*.
+    decimals
+        Decimals to use when formatting the colour transformation matrix.
+
+    Returns
+    -------
+    :class:`str`
+        Url query.
+    """
+
+    query = urlencode(
+        {
+            "input-colourspace": input_colourspace,
+            "output-colourspace": output_colourspace,
+            "chromatic-adaptation-transform": chromatic_adaptation_transform,
+            "formatter": formatter,
+            "decimals": decimals,
+        }
+    )
+
+    return f"?{query}"
