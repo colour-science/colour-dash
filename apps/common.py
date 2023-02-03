@@ -3,8 +3,10 @@ Common
 ======
 """
 
+from io import StringIO
 from colour.adaptation import CHROMATIC_ADAPTATION_TRANSFORMS
 from colour.colorimetry import CCS_ILLUMINANTS
+from colour.io import LUTOperatorMatrix, write_LUT_SonySPImtx
 from colour.models import RGB_COLOURSPACES
 from colour.utilities import as_float_array
 
@@ -23,6 +25,7 @@ __all__ = [
     "ILLUMINANTS_OPTIONS",
     "NUKE_COLORMATRIX_NODE_TEMPLATE",
     "nuke_format_matrix",
+    "spimtx_format_matrix",
 ]
 
 RGB_COLOURSPACE_OPTIONS: List[Dict] = [
@@ -102,3 +105,27 @@ def nuke_format_matrix(M: ArrayLike, decimals: int = 10) -> str:
     tcl += f"     {{{pretty(M[2])}}}"
 
     return tcl
+
+
+def spimtx_format_matrix(M: ArrayLike, decimals: int = 10) -> str:
+    """
+    Format given matrix as a *Sony* *.spimtx* *LUT* formatted matrix.
+
+    Parameters
+    ----------
+    M
+        Matrix to format.
+    decimals
+        Decimals to use when formatting the matrix.
+
+    Returns
+    -------
+    :class:`str`
+        *Sony* *.spimtx* *LUT* formatted matrix.
+    """
+
+    string = StringIO()
+
+    write_LUT_SonySPImtx(LUTOperatorMatrix(M), string, decimals)
+
+    return string.getvalue()

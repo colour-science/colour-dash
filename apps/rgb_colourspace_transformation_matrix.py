@@ -21,6 +21,7 @@ from apps.common import (
     NUKE_COLORMATRIX_NODE_TEMPLATE,
     RGB_COLOURSPACE_OPTIONS,
     nuke_format_matrix,
+    spimtx_format_matrix,
 )
 
 __author__ = "Colour Developers"
@@ -118,6 +119,7 @@ LAYOUT: Div = Div(
                         {"label": "str", "value": "str"},
                         {"label": "repr", "value": "repr"},
                         {"label": "Nuke", "value": "Nuke"},
+                        {"label": "Spimtx", "value": "Spimtx"},
                     ],
                     value=DEFAULT_STATE["formatter"],
                     clearable=False,
@@ -250,7 +252,7 @@ def set_RGB_to_RGB_matrix_output(
             M_f = str(M)
         elif formatter == "repr":
             M_f = repr(M)
-        else:
+        elif formatter == "Nuke":
 
             def slugify(string: str) -> str:
                 """Slugify given string for *Nuke*."""
@@ -270,6 +272,8 @@ def set_RGB_to_RGB_matrix_output(
                     f"{slugify(output_colourspace)}"
                 ),
             )
+        elif formatter == "Spimtx":
+            M_f = spimtx_format_matrix(M, decimals)
 
         return M_f
 
