@@ -85,7 +85,7 @@ def quality(
 
     if pyright:
         message_box('Checking codebase with "Pyright"...')
-        ctx.run("pyright --skipunannotated")
+        ctx.run("pyright --skipunannotated --level warning")
 
 
 @task
