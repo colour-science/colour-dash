@@ -3,6 +3,7 @@ Invoke - Tasks
 ==============
 """
 
+import contextlib
 import platform
 from invoke.exceptions import Failure
 
@@ -85,7 +86,7 @@ def quality(
 
     if pyright:
         message_box('Checking codebase with "Pyright"...')
-        ctx.run("pyright --skipunannotated")
+        ctx.run("pyright --skipunannotated --level warning")
 
 
 @task
@@ -156,16 +157,12 @@ def docker_remove(ctx: Context):
     """
 
     message_box('Stopping "docker" container...')
-    try:
+    with contextlib.suppress(Failure):
         ctx.run(f"docker stop {CONTAINER}")
-    except Failure:
-        pass
 
     message_box('Removing "docker" container...')
-    try:
+    with contextlib.suppress(Failure):
         ctx.run(f"docker rm {CONTAINER}")
-    except Failure:
-        pass
 
 
 @task(docker_remove, docker_build)

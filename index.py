@@ -9,7 +9,7 @@ from dash.html import A, Div, H3, P
 
 import apps.rgb_colourspace_transformation_matrix as app_1
 import apps.rgb_colourspace_chromatically_adapted_primaries as app_2
-from app import APP, SERVER  # noqa
+from app import APP
 
 __author__ = "Colour Developers"
 __copyright__ = "Copyright 2018 Colour Developers"
