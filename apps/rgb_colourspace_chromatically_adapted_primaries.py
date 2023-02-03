@@ -8,7 +8,7 @@ import urllib.parse
 from contextlib import suppress
 from dash.dcc import Dropdown, Link, Location, Markdown, Slider
 from dash.dependencies import Input, Output
-from dash.html import A, Code, Div, H3, H5, Li, Pre, Ul
+from dash.html import A, Button, Code, Div, H3, H5, Li, Pre, Ul
 from urllib.parse import parse_qs, urlencode, urlparse
 
 from colour.colorimetry import CCS_ILLUMINANTS
@@ -17,9 +17,9 @@ from colour.utilities import numpy_print_options
 
 from app import APP, SERVER_URL
 from apps.common import (
-    CHROMATIC_ADAPTATION_TRANSFORM_OPTIONS,
-    ILLUMINANTS_OPTIONS,
-    RGB_COLOURSPACE_OPTIONS,
+    OPTIONS_CHROMATIC_ADAPTATION_TRANSFORM,
+    OPTIONS_ILLUMINANTS,
+    OPTIONS_RGB_COLOURSPACE,
 )
 
 __author__ = "Colour Developers"
@@ -34,7 +34,7 @@ __all__ = [
     "APP_PATH",
     "APP_DESCRIPTION",
     "APP_UID",
-    "DEFAULT_STATE",
+    "STATE_DEFAULT",
     "LAYOUT",
     "set_primaries_output",
     "update_state_on_url_query_change",
@@ -66,10 +66,19 @@ APP_UID: int = hash(APP_NAME)
 App unique id.
 """
 
-DEFAULT_STATE = {
-    "colourspace": RGB_COLOURSPACE_OPTIONS[0]["value"],
-    "illuminant": ILLUMINANTS_OPTIONS[0]["value"],
-    "chromatic_adaptation_transform": CHROMATIC_ADAPTATION_TRANSFORM_OPTIONS[
+
+def _uid(id_):
+    """
+    Generate a unique id for given id by appending the application *UID*.
+    """
+
+    return f"{id_}-{APP_UID}"
+
+
+STATE_DEFAULT = {
+    "colourspace": OPTIONS_RGB_COLOURSPACE[0]["value"],
+    "illuminant": OPTIONS_ILLUMINANTS[0]["value"],
+    "chromatic_adaptation_transform": OPTIONS_CHROMATIC_ADAPTATION_TRANSFORM[
         0
     ]["value"],
     "formatter": "str",
@@ -81,58 +90,68 @@ Default App state.
 
 LAYOUT: Div = Div(
     [
-        Location(id=f"url-{APP_UID}", refresh=False),
+        Location(id=_uid("url"), refresh=False),
         H3([Link(APP_NAME, href=APP_PATH)], className="text-center"),
         Div(
             [
                 Markdown(APP_DESCRIPTION),
                 H5(children="Colourspace"),
                 Dropdown(
-                    id=f"colourspace-{APP_UID}",
-                    options=RGB_COLOURSPACE_OPTIONS,
-                    value=DEFAULT_STATE["colourspace"],
+                    id=_uid("colourspace"),
+                    options=OPTIONS_RGB_COLOURSPACE,
+                    value=STATE_DEFAULT["colourspace"],
                     clearable=False,
                     className="app-widget",
                 ),
                 H5(children="Illuminant"),
                 Dropdown(
-                    id=f"illuminant-{APP_UID}",
-                    options=ILLUMINANTS_OPTIONS,
-                    value=DEFAULT_STATE["illuminant"],
+                    id=_uid("illuminant"),
+                    options=OPTIONS_ILLUMINANTS,
+                    value=STATE_DEFAULT["illuminant"],
                     clearable=False,
                     className="app-widget",
                 ),
                 H5(children="Chromatic Adaptation Transform"),
                 Dropdown(
-                    id=f"chromatic-adaptation-transform-{APP_UID}",
-                    options=CHROMATIC_ADAPTATION_TRANSFORM_OPTIONS,
-                    value=DEFAULT_STATE["chromatic_adaptation_transform"],
+                    id=_uid("chromatic-adaptation-transform"),
+                    options=OPTIONS_CHROMATIC_ADAPTATION_TRANSFORM,
+                    value=STATE_DEFAULT["chromatic_adaptation_transform"],
                     clearable=False,
                     className="app-widget",
                 ),
                 H5(children="Formatter"),
                 Dropdown(
-                    id=f"formatter-{APP_UID}",
+                    id=_uid("formatter"),
                     options=[
                         {"label": "str", "value": "str"},
                         {"label": "repr", "value": "repr"},
                     ],
-                    value=DEFAULT_STATE["formatter"],
+                    value=STATE_DEFAULT["formatter"],
                     clearable=False,
                     className="app-widget",
                 ),
                 H5(children="Decimals"),
                 Slider(
-                    id=f"decimals-{APP_UID}",
+                    id=_uid("decimals"),
                     min=1,
                     max=15,
                     step=1,
-                    value=DEFAULT_STATE["decimals"],
+                    value=STATE_DEFAULT["decimals"],
                     marks={i + 1: str(i + 1) for i in range(15)},
                     className="app-widget",
                 ),
+                Button(
+                    "Copy to Clipboard",
+                    id=_uid("copy-to-clipboard-button"),
+                    n_clicks=0,
+                    style={"width": "100%"},
+                ),
                 Pre(
-                    [Code(id=f"primaries-{APP_UID}", className="code shell")],
+                    [
+                        Code(
+                            id=_uid("primaries-output"), className="code shell"
+                        )
+                    ],
                     className="app-widget app-output",
                 ),
                 Ul(
@@ -172,6 +191,7 @@ LAYOUT: Div = Div(
                     ],
                     className="list-inline text-center",
                 ),
+                Div(id=_uid("dev-null"), style={"display": "none"}),
             ],
             className="col-6 mx-auto",
         ),
@@ -185,13 +205,15 @@ LAYOUT : Div
 
 
 @APP.callback(
-    Output(component_id=f"primaries-{APP_UID}", component_property="children"),
+    Output(
+        component_id=_uid("primaries-output"), component_property="children"
+    ),
     [
-        Input(f"colourspace-{APP_UID}", "value"),
-        Input(f"illuminant-{APP_UID}", "value"),
-        Input(f"chromatic-adaptation-transform-{APP_UID}", "value"),
-        Input(f"formatter-{APP_UID}", "value"),
-        Input(f"decimals-{APP_UID}", "value"),
+        Input(_uid("colourspace"), "value"),
+        Input(_uid("illuminant"), "value"),
+        Input(_uid("chromatic-adaptation-transform"), "value"),
+        Input(_uid("formatter"), "value"),
+        Input(_uid("decimals"), "value"),
     ],
 )
 def set_primaries_output(
@@ -248,14 +270,14 @@ def set_primaries_output(
 
 @APP.callback(
     [
-        Output(f"colourspace-{APP_UID}", "value"),
-        Output(f"illuminant-{APP_UID}", "value"),
-        Output(f"chromatic-adaptation-transform-{APP_UID}", "value"),
-        Output(f"formatter-{APP_UID}", "value"),
-        Output(f"decimals-{APP_UID}", "value"),
+        Output(_uid("colourspace"), "value"),
+        Output(_uid("illuminant"), "value"),
+        Output(_uid("chromatic-adaptation-transform"), "value"),
+        Output(_uid("formatter"), "value"),
+        Output(_uid("decimals"), "value"),
     ],
     [
-        Input("url", "href"),
+        Input(_uid("url"), "href"),
     ],
 )
 def update_state_on_url_query_change(href: str) -> tuple:
@@ -283,7 +305,7 @@ def update_state_on_url_query_change(href: str) -> tuple:
         with suppress(KeyError):
             return query[value][0]
 
-        return DEFAULT_STATE[value.replace("-", "_")]
+        return STATE_DEFAULT[value.replace("-", "_")]
 
     state = (
         value_from_query("colourspace"),
@@ -297,13 +319,13 @@ def update_state_on_url_query_change(href: str) -> tuple:
 
 
 @APP.callback(
-    Output(f"url-{APP_UID}", "search"),
+    Output(_uid("url"), "search"),
     [
-        Input(f"colourspace-{APP_UID}", "value"),
-        Input(f"illuminant-{APP_UID}", "value"),
-        Input(f"chromatic-adaptation-transform-{APP_UID}", "value"),
-        Input(f"formatter-{APP_UID}", "value"),
-        Input(f"decimals-{APP_UID}", "value"),
+        Input(_uid("colourspace"), "value"),
+        Input(_uid("illuminant"), "value"),
+        Input(_uid("chromatic-adaptation-transform"), "value"),
+        Input(_uid("formatter"), "value"),
+        Input(_uid("decimals"), "value"),
     ],
 )
 def update_url_query_on_state_change(
@@ -347,3 +369,20 @@ def update_url_query_on_state_change(
     )
 
     return f"?{query}"
+
+
+APP.clientside_callback(
+    f"""
+    function(n_clicks) {{
+        var primariesOutput = document.getElementById(\
+"{_uid('primaries-output')}");
+        var content = primariesOutput.textContent;
+        navigator.clipboard.writeText(content).then(function() {{
+        }}, function() {{
+        }});
+        return content;
+    }}
+    """,
+    [Output(component_id=_uid("dev-null"), component_property="children")],
+    [Input(_uid("copy-to-clipboard-button"), "n_clicks")],
+)
