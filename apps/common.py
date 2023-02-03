@@ -20,15 +20,17 @@ __email__ = "colour-developers@colour-science.org"
 __status__ = "Production"
 
 __all__ = [
-    "RGB_COLOURSPACE_OPTIONS",
-    "CHROMATIC_ADAPTATION_TRANSFORM_OPTIONS",
-    "ILLUMINANTS_OPTIONS",
-    "NUKE_COLORMATRIX_NODE_TEMPLATE",
+    "OPTIONS_RGB_COLOURSPACE",
+    "OPTIONS_CHROMATIC_ADAPTATION_TRANSFORM",
+    "OPTIONS_ILLUMINANTS",
+    "TEMPLATE_NUKE_NODE_COLORMATRIX",
     "nuke_format_matrix",
     "spimtx_format_matrix",
+    "TEMPLATE_OCIO_COLORSPACE",
+    "matrix_3x3_to_4x4",
 ]
 
-RGB_COLOURSPACE_OPTIONS: List[Dict] = [
+OPTIONS_RGB_COLOURSPACE: List[Dict] = [
     {"label": key, "value": key}
     for key in sorted(RGB_COLOURSPACES.keys())
     if key not in ("aces", "adobe1998", "prophoto")
@@ -37,7 +39,7 @@ RGB_COLOURSPACE_OPTIONS: List[Dict] = [
 *RGB* colourspace options for a :class:`Dropdown` class instance.
 """
 
-CHROMATIC_ADAPTATION_TRANSFORM_OPTIONS: List[Dict] = [
+OPTIONS_CHROMATIC_ADAPTATION_TRANSFORM: List[Dict] = [
     {"label": key, "value": key}
     for key in sorted(CHROMATIC_ADAPTATION_TRANSFORMS.keys())
 ]
@@ -46,7 +48,7 @@ CHROMATIC_ADAPTATION_TRANSFORM_OPTIONS: List[Dict] = [
 instance.
 """
 
-ILLUMINANTS_OPTIONS: List[Dict] = [
+OPTIONS_ILLUMINANTS: List[Dict] = [
     {"label": key, "value": key}
     for key in sorted(
         CCS_ILLUMINANTS["CIE 1931 2 Degree Standard Observer"].keys()
@@ -57,13 +59,13 @@ ILLUMINANTS_OPTIONS: List[Dict] = [
 :class:`Dropdown`class instance.
 """
 
-NUKE_COLORMATRIX_NODE_TEMPLATE: str = """
+TEMPLATE_NUKE_NODE_COLORMATRIX: str = """
 ColorMatrix {{
  inputs 0
  matrix {{
-     {0}
+     {matrix}
    }}
- name "{1}"
+ name "{name}"
  selected true
  xpos 0
  ypos 0
@@ -129,3 +131,50 @@ def spimtx_format_matrix(M: ArrayLike, decimals: int = 10) -> str:
     write_LUT_SonySPImtx(LUTOperatorMatrix(M), string, decimals)
 
     return string.getvalue()
+
+
+TEMPLATE_OCIO_COLORSPACE = """
+  - !<ColorSpace>
+    name: Linear {name}
+    aliases: []
+    family: Utility
+    equalitygroup: ""
+    bitdepth: 32f
+    description: |
+      Convert from {input_colourspace} to Linear {output_colourspace}
+    isdata: false
+    encoding: scene-linear
+    allocation: uniform
+    from_scene_reference: !<GroupTransform>
+      name: {input_colourspace} to Linear {output_colourspace}
+      children:
+        - !<MatrixTransform> {{matrix: {matrix}}}
+"""[
+    1:
+]
+"""
+*OpenColorIO* *ColorSpace* template.
+"""
+
+
+def matrix_3x3_to_4x4(M):
+    """
+    Convert given 3x3 matrix :math:`M` to a raveled 4x4 matrix.
+
+    Parameters
+    ----------
+    M : array_like
+        3x3 matrix :math:`M` to convert.
+
+    Returns
+    -------
+    list
+        Raveled 4x4 matrix.
+    """
+
+    import numpy as np
+
+    M_I = np.identity(4)
+    M_I[:3, :3] = M
+
+    return np.ravel(M_I)
