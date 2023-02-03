@@ -94,118 +94,130 @@ Default App state.
 
 LAYOUT: Div = Div(
     [
-        Location(id=_uid("url"), refresh=False),
-        H3([Link(APP_NAME, href=APP_PATH)], className="text-center"),
+        Div(className="col-2"),
         Div(
             [
-                Markdown(APP_DESCRIPTION),
-                H5(children="Input Colourspace"),
-                Dropdown(
-                    id=_uid("input-colourspace"),
-                    options=OPTIONS_RGB_COLOURSPACE,
-                    value=STATE_DEFAULT["input_colourspace"],
-                    clearable=False,
-                    className="app-widget",
-                ),
-                H5(children="Output Colourspace"),
-                Dropdown(
-                    id=_uid("output-colourspace"),
-                    options=OPTIONS_RGB_COLOURSPACE,
-                    value=STATE_DEFAULT["output_colourspace"],
-                    clearable=False,
-                    className="app-widget",
-                ),
-                H5(children="Chromatic Adaptation Transform"),
-                Dropdown(
-                    id=_uid("chromatic-adaptation-transform"),
-                    options=OPTIONS_CHROMATIC_ADAPTATION_TRANSFORM,
-                    value=STATE_DEFAULT["chromatic_adaptation_transform"],
-                    clearable=False,
-                    className="app-widget",
-                ),
-                H5(children="Formatter"),
-                Dropdown(
-                    id=_uid("formatter"),
-                    options=[
-                        {"label": "str", "value": "str"},
-                        {"label": "repr", "value": "repr"},
-                        {"label": "Nuke", "value": "nuke"},
-                        {"label": "OpenColorIO", "value": "opencolorio"},
-                        {"label": "Spimtx", "value": "spimtx"},
-                    ],
-                    value=STATE_DEFAULT["formatter"],
-                    clearable=False,
-                    className="app-widget",
-                ),
-                H5(children="Decimals"),
-                Slider(
-                    id=_uid("decimals"),
-                    min=1,
-                    max=15,
-                    step=1,
-                    value=STATE_DEFAULT["decimals"],
-                    marks={i + 1: str(i + 1) for i in range(15)},
-                    className="app-widget",
-                ),
-                Button(
-                    "Copy to Clipboard",
-                    id=_uid("copy-to-clipboard-button"),
-                    n_clicks=0,
-                    style={"width": "100%"},
-                ),
-                Pre(
+                Location(id=_uid("url"), refresh=False),
+                H3([Link(APP_NAME, href=APP_PATH)], className="text-center"),
+                Div(
                     [
-                        Code(
-                            id=_uid(
-                                "rgb-colourspace-transformation-matrix-output"
-                            ),
-                            className="code shell",
-                        )
-                    ],
-                    className="app-widget app-output",
-                ),
-                Ul(
-                    [
-                        Li(
-                            [
-                                Link(
-                                    "Back to index...",
-                                    href="/",
-                                    className="app-link",
-                                )
-                            ],
-                            className="list-inline-item",
+                        Markdown(APP_DESCRIPTION),
+                        H5(children="Input Colourspace"),
+                        Dropdown(
+                            id=_uid("input-colourspace"),
+                            options=OPTIONS_RGB_COLOURSPACE,
+                            value=STATE_DEFAULT["input_colourspace"],
+                            clearable=False,
+                            className="app-widget",
                         ),
-                        Li(
+                        H5(children="Output Colourspace"),
+                        Dropdown(
+                            id=_uid("output-colourspace"),
+                            options=OPTIONS_RGB_COLOURSPACE,
+                            value=STATE_DEFAULT["output_colourspace"],
+                            clearable=False,
+                            className="app-widget",
+                        ),
+                        H5(children="Chromatic Adaptation Transform"),
+                        Dropdown(
+                            id=_uid("chromatic-adaptation-transform"),
+                            options=OPTIONS_CHROMATIC_ADAPTATION_TRANSFORM,
+                            value=STATE_DEFAULT[
+                                "chromatic_adaptation_transform"
+                            ],
+                            clearable=False,
+                            className="app-widget",
+                        ),
+                        H5(children="Formatter"),
+                        Dropdown(
+                            id=_uid("formatter"),
+                            options=[
+                                {"label": "str", "value": "str"},
+                                {"label": "repr", "value": "repr"},
+                                {"label": "Nuke", "value": "nuke"},
+                                {
+                                    "label": "OpenColorIO",
+                                    "value": "opencolorio",
+                                },
+                                {"label": "Spimtx", "value": "spimtx"},
+                            ],
+                            value=STATE_DEFAULT["formatter"],
+                            clearable=False,
+                            className="app-widget",
+                        ),
+                        H5(children="Decimals"),
+                        Slider(
+                            id=_uid("decimals"),
+                            min=1,
+                            max=15,
+                            step=1,
+                            value=STATE_DEFAULT["decimals"],
+                            marks={i + 1: str(i + 1) for i in range(15)},
+                            className="app-widget",
+                        ),
+                        Button(
+                            "Copy to Clipboard",
+                            id=_uid("copy-to-clipboard-button"),
+                            n_clicks=0,
+                            style={"width": "100%"},
+                        ),
+                        Pre(
                             [
-                                A(
-                                    "Permalink",
-                                    href=urllib.parse.urljoin(
-                                        str(SERVER_URL), APP_PATH
+                                Code(
+                                    id=_uid(
+                                        "rgb-colourspace-transformation-matrix-output"
                                     ),
-                                    target="_blank",
+                                    className="code shell",
                                 )
                             ],
-                            className="list-inline-item",
+                            className="app-widget app-output",
                         ),
-                        Li(
+                        Ul(
                             [
-                                A(
-                                    "colour-science.org",
-                                    href="https://www.colour-science.org",
-                                    target="_blank",
-                                )
+                                Li(
+                                    [
+                                        Link(
+                                            "Back to index...",
+                                            href="/",
+                                            className="app-link",
+                                        )
+                                    ],
+                                    className="list-inline-item",
+                                ),
+                                Li(
+                                    [
+                                        A(
+                                            "Permalink",
+                                            href=urllib.parse.urljoin(
+                                                str(SERVER_URL), APP_PATH
+                                            ),
+                                            target="_blank",
+                                        )
+                                    ],
+                                    className="list-inline-item",
+                                ),
+                                Li(
+                                    [
+                                        A(
+                                            "colour-science.org",
+                                            href="https://www.colour-science.org",
+                                            target="_blank",
+                                        )
+                                    ],
+                                    className="list-inline-item",
+                                ),
                             ],
-                            className="list-inline-item",
+                            className="list-inline text-center",
                         ),
+                        Div(id=_uid("dev-null"), style={"display": "none"}),
                     ],
-                    className="list-inline text-center",
                 ),
-                Div(id=_uid("dev-null"), style={"display": "none"}),
             ],
-            className="col-6 mx-auto",
+            className="col-8",
         ),
-    ]
+        Div(className="col-2"),
+    ],
+    Div(className="row"),
 )
 """
 App layout, i.e. :class:`Div` class instance.
