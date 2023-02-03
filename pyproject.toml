@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "colour-dash"
-version = "0.2.3"
+version = "0.2.4"
 description = "Various colour science Dash apps built on top of Colour"
 license = "BSD-3-Clause"
 authors = [ "Colour Developers <colour-developers@colour-science.org>" ]
