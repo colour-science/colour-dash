@@ -128,7 +128,9 @@ def spimtx_format_matrix(M: ArrayLike, decimals: int = 10) -> str:
 
     string = StringIO()
 
-    write_LUT_SonySPImtx(LUTOperatorMatrix(M), string, decimals)
+    write_LUT_SonySPImtx(
+        LUTOperatorMatrix(M), string, decimals  # pyright: ignore
+    )
 
     return string.getvalue()
 
