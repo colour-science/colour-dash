@@ -90,112 +90,122 @@ Default App state.
 
 LAYOUT: Div = Div(
     [
-        Location(id=_uid("url"), refresh=False),
-        H3([Link(APP_NAME, href=APP_PATH)], className="text-center"),
+        Div(className="col-2"),
         Div(
             [
-                Markdown(APP_DESCRIPTION),
-                H5(children="Colourspace"),
-                Dropdown(
-                    id=_uid("colourspace"),
-                    options=OPTIONS_RGB_COLOURSPACE,
-                    value=STATE_DEFAULT["colourspace"],
-                    clearable=False,
-                    className="app-widget",
-                ),
-                H5(children="Illuminant"),
-                Dropdown(
-                    id=_uid("illuminant"),
-                    options=OPTIONS_ILLUMINANTS,
-                    value=STATE_DEFAULT["illuminant"],
-                    clearable=False,
-                    className="app-widget",
-                ),
-                H5(children="Chromatic Adaptation Transform"),
-                Dropdown(
-                    id=_uid("chromatic-adaptation-transform"),
-                    options=OPTIONS_CHROMATIC_ADAPTATION_TRANSFORM,
-                    value=STATE_DEFAULT["chromatic_adaptation_transform"],
-                    clearable=False,
-                    className="app-widget",
-                ),
-                H5(children="Formatter"),
-                Dropdown(
-                    id=_uid("formatter"),
-                    options=[
-                        {"label": "str", "value": "str"},
-                        {"label": "repr", "value": "repr"},
-                    ],
-                    value=STATE_DEFAULT["formatter"],
-                    clearable=False,
-                    className="app-widget",
-                ),
-                H5(children="Decimals"),
-                Slider(
-                    id=_uid("decimals"),
-                    min=1,
-                    max=15,
-                    step=1,
-                    value=STATE_DEFAULT["decimals"],
-                    marks={i + 1: str(i + 1) for i in range(15)},
-                    className="app-widget",
-                ),
-                Button(
-                    "Copy to Clipboard",
-                    id=_uid("copy-to-clipboard-button"),
-                    n_clicks=0,
-                    style={"width": "100%"},
-                ),
-                Pre(
+                Location(id=_uid("url"), refresh=False),
+                H3([Link(APP_NAME, href=APP_PATH)], className="text-center"),
+                Div(
                     [
-                        Code(
-                            id=_uid("primaries-output"), className="code shell"
-                        )
+                        Markdown(APP_DESCRIPTION),
+                        H5(children="Colourspace"),
+                        Dropdown(
+                            id=_uid("colourspace"),
+                            options=OPTIONS_RGB_COLOURSPACE,
+                            value=STATE_DEFAULT["colourspace"],
+                            clearable=False,
+                            className="app-widget",
+                        ),
+                        H5(children="Illuminant"),
+                        Dropdown(
+                            id=_uid("illuminant"),
+                            options=OPTIONS_ILLUMINANTS,
+                            value=STATE_DEFAULT["illuminant"],
+                            clearable=False,
+                            className="app-widget",
+                        ),
+                        H5(children="Chromatic Adaptation Transform"),
+                        Dropdown(
+                            id=_uid("chromatic-adaptation-transform"),
+                            options=OPTIONS_CHROMATIC_ADAPTATION_TRANSFORM,
+                            value=STATE_DEFAULT[
+                                "chromatic_adaptation_transform"
+                            ],
+                            clearable=False,
+                            className="app-widget",
+                        ),
+                        H5(children="Formatter"),
+                        Dropdown(
+                            id=_uid("formatter"),
+                            options=[
+                                {"label": "str", "value": "str"},
+                                {"label": "repr", "value": "repr"},
+                            ],
+                            value=STATE_DEFAULT["formatter"],
+                            clearable=False,
+                            className="app-widget",
+                        ),
+                        H5(children="Decimals"),
+                        Slider(
+                            id=_uid("decimals"),
+                            min=1,
+                            max=15,
+                            step=1,
+                            value=STATE_DEFAULT["decimals"],
+                            marks={i + 1: str(i + 1) for i in range(15)},
+                            className="app-widget",
+                        ),
+                        Button(
+                            "Copy to Clipboard",
+                            id=_uid("copy-to-clipboard-button"),
+                            n_clicks=0,
+                            style={"width": "100%"},
+                        ),
+                        Pre(
+                            [
+                                Code(
+                                    id=_uid("primaries-output"),
+                                    className="code shell",
+                                )
+                            ],
+                            className="app-widget app-output",
+                        ),
+                        Ul(
+                            [
+                                Li(
+                                    [
+                                        Link(
+                                            "Back to index...",
+                                            href="/",
+                                            className="app-link",
+                                        )
+                                    ],
+                                    className="list-inline-item",
+                                ),
+                                Li(
+                                    [
+                                        A(
+                                            "Permalink",
+                                            href=urllib.parse.urljoin(
+                                                str(SERVER_URL), APP_PATH
+                                            ),
+                                            target="_blank",
+                                        )
+                                    ],
+                                    className="list-inline-item",
+                                ),
+                                Li(
+                                    [
+                                        A(
+                                            "colour-science.org",
+                                            href="https://www.colour-science.org",
+                                            target="_blank",
+                                        )
+                                    ],
+                                    className="list-inline-item",
+                                ),
+                            ],
+                            className="list-inline text-center",
+                        ),
+                        Div(id=_uid("dev-null"), style={"display": "none"}),
                     ],
-                    className="app-widget app-output",
                 ),
-                Ul(
-                    [
-                        Li(
-                            [
-                                Link(
-                                    "Back to index...",
-                                    href="/",
-                                    className="app-link",
-                                )
-                            ],
-                            className="list-inline-item",
-                        ),
-                        Li(
-                            [
-                                A(
-                                    "Permalink",
-                                    href=urllib.parse.urljoin(
-                                        str(SERVER_URL), APP_PATH
-                                    ),
-                                    target="_blank",
-                                )
-                            ],
-                            className="list-inline-item",
-                        ),
-                        Li(
-                            [
-                                A(
-                                    "colour-science.org",
-                                    href="https://www.colour-science.org",
-                                    target="_blank",
-                                )
-                            ],
-                            className="list-inline-item",
-                        ),
-                    ],
-                    className="list-inline text-center",
-                ),
-                Div(id=_uid("dev-null"), style={"display": "none"}),
             ],
-            className="col-6 mx-auto",
+            className="col-6",
         ),
-    ]
+        Div(className="col-2"),
+    ],
+    Div(className="row"),
 )
 """
 App layout, i.e. :class:`Div` class instance.

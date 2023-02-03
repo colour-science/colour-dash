@@ -20,9 +20,7 @@ __status__ = "Production"
 
 __all__ = ["load_app"]
 
-APP.layout = Div(
-    [Location(id="url", refresh=False), Div(id="apps", className="row")]
-)
+APP.layout = Div([Location(id="url", refresh=False), Div(id="apps")])
 
 
 @APP.callback(Output("apps", "children"), [Input("url", "pathname")])
