@@ -205,7 +205,7 @@ LAYOUT: Div = Div(
         ),
         Div(className="col-2"),
     ],
-    Div(className="row"),
+    className="row",
 )
 """
 App layout, i.e. :class:`Div` class instance.
