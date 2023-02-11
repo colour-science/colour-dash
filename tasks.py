@@ -36,6 +36,7 @@ __all__ = [
     "docker_build",
     "docker_remove",
     "docker_run",
+    "docker_push",
 ]
 
 APPLICATION_NAME: str = app.__application_name__
