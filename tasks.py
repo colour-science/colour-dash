@@ -16,7 +16,8 @@ import inspect
 if not hasattr(inspect, "getargspec"):
     inspect.getargspec = inspect.getfullargspec  # pyright: ignore
 
-from invoke import Context, task
+from invoke.tasks import task
+from invoke.context import Context
 
 __author__ = "Colour Developers"
 __copyright__ = "Copyright 2018 Colour Developers"
@@ -36,6 +37,7 @@ __all__ = [
     "docker_build",
     "docker_remove",
     "docker_run",
+    "docker_push",
 ]
 
 APPLICATION_NAME: str = app.__application_name__
