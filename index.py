@@ -3,6 +3,7 @@ Index
 =====
 """
 
+import dash
 from dash.dependencies import Input, Output
 from dash.dcc import Link, Location, Markdown
 from dash.html import A, Div, H3, P
@@ -24,7 +25,7 @@ APP.layout = Div([Location(id="url", refresh=False), Div(id="apps")])
 
 
 @APP.callback(Output("apps", "children"), [Input("url", "pathname")])
-def load_app(app: APP):
+def load_app(app: dash.Dash):
     """
     Load given app into the appropriate :class:`Div` class instance.
 

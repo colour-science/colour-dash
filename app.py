@@ -20,7 +20,7 @@ __application_name__ = "Colour - Dash"
 
 __major_version__ = "0"
 __minor_version__ = "2"
-__change_version__ = "5"
+__change_version__ = "6"
 __version__ = ".".join(
     (__major_version__, __minor_version__, __change_version__)
 )
@@ -41,7 +41,7 @@ APP: dash.Dash = dash.Dash(
     __application_name__,
     external_scripts=os.environ.get("COLOUR_DASH_JS", "").split(","),
     external_stylesheets=os.environ.get("COLOUR_DASH_CSS", "").split(","),
-    server=SERVER,
+    server=SERVER,  # pyright: ignore
 )
 """
 *Dash* app.
