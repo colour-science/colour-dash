@@ -41,7 +41,7 @@ APP: dash.Dash = dash.Dash(
     __application_name__,
     external_scripts=os.environ.get("COLOUR_DASH_JS", "").split(","),
     external_stylesheets=os.environ.get("COLOUR_DASH_CSS", "").split(","),
-    server=SERVER,
+    server=SERVER,  # pyright: ignore
 )
 """
 *Dash* app.

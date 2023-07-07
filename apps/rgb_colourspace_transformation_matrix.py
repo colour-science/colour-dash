@@ -245,7 +245,7 @@ LAYOUT : Div
 def set_RGB_to_RGB_matrix_output(
     input_colourspace: str,
     output_colourspace: str,
-    chromatic_adaptation_transform: str,
+    chromatic_adaptation_transform: str | None,
     formatter: str,
     decimals: int,
 ) -> str:
