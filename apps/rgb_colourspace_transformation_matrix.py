@@ -121,7 +121,10 @@ LAYOUT: Div = Div(
                         H5(children="Chromatic Adaptation Transform"),
                         Dropdown(
                             id=_uid("chromatic-adaptation-transform"),
-                            options=OPTIONS_CHROMATIC_ADAPTATION_TRANSFORM,
+                            options=[
+                                *OPTIONS_CHROMATIC_ADAPTATION_TRANSFORM,
+                                {"label": "None", "value": "None"},
+                            ],
                             value=STATE_DEFAULT[
                                 "chromatic_adaptation_transform"
                             ],
@@ -270,6 +273,12 @@ def set_RGB_to_RGB_matrix_output(
     :class:`str`
         Colour transformation matrix.
     """
+
+    chromatic_adaptation_transform = (
+        None
+        if chromatic_adaptation_transform == "None"
+        else chromatic_adaptation_transform
+    )
 
     M = matrix_RGB_to_RGB(
         RGB_COLOURSPACES[input_colourspace],
