@@ -143,12 +143,12 @@ TEMPLATE_OCIO_COLORSPACE = """
     equalitygroup: ""
     bitdepth: 32f
     description: |
-      Convert from {input_colourspace} to Linear {output_colourspace}
+      Convert from Linear {input_colourspace} to Linear {output_colourspace}
     isdata: false
     encoding: scene-linear
     allocation: uniform
     from_scene_reference: !<GroupTransform>
-      name: {input_colourspace} to Linear {output_colourspace}
+      name: Linear {input_colourspace} to Linear {output_colourspace}
       children:
         - !<MatrixTransform> {{matrix: {matrix}}}
 """[
