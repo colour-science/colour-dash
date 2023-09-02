@@ -14,7 +14,7 @@ from colour.hints import ArrayLike, Dict, Iterable, List
 
 __author__ = "Colour Developers"
 __copyright__ = "Copyright 2018 Colour Developers"
-__license__ = "New BSD License - https://opensource.org/licenses/BSD-3-Clause"
+__license__ = "BSD-3-Clause - https://opensource.org/licenses/BSD-3-Clause"
 __maintainer__ = "Colour Developers"
 __email__ = "colour-developers@colour-science.org"
 __status__ = "Production"
@@ -143,12 +143,12 @@ TEMPLATE_OCIO_COLORSPACE = """
     equalitygroup: ""
     bitdepth: 32f
     description: |
-      Convert from {input_colourspace} to Linear {output_colourspace}
+      Convert from Linear {input_colourspace} to Linear {output_colourspace}
     isdata: false
     encoding: scene-linear
     allocation: uniform
     from_scene_reference: !<GroupTransform>
-      name: {input_colourspace} to Linear {output_colourspace}
+      name: Linear {input_colourspace} to Linear {output_colourspace}
       children:
         - !<MatrixTransform> {{matrix: {matrix}}}
 """[

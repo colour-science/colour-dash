@@ -2,7 +2,7 @@
 *.pyc
 *.pyo
 .DS_Store
-.coverage
+.coverage*
 .idea
 __pycache__
 poetry.lock

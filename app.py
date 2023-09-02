@@ -11,7 +11,7 @@ from flask import Flask
 
 __author__ = "Colour Developers"
 __copyright__ = "Copyright 2018 Colour Developers"
-__license__ = "New BSD License - https://opensource.org/licenses/BSD-3-Clause"
+__license__ = "BSD-3-Clause - https://opensource.org/licenses/BSD-3-Clause"
 __maintainer__ = "Colour Developers"
 __email__ = "colour-developers@colour-science.org"
 __status__ = "Production"
@@ -20,7 +20,7 @@ __application_name__ = "Colour - Dash"
 
 __major_version__ = "0"
 __minor_version__ = "2"
-__change_version__ = "6"
+__change_version__ = "7"
 __version__ = ".".join(
     (__major_version__, __minor_version__, __change_version__)
 )
