@@ -6,7 +6,7 @@ Colour - Dash
 Introduction
 ------------
 
-Various colour science `Dash <https://dash.plot.ly/>`__ apps built on top of
+Various colour science `Dash <https://dash.plot.ly>`__ apps built on top of
 `Colour <https://github.com/colour-science/colour>`__.
 
 Installation
@@ -43,7 +43,7 @@ Code of Conduct
 ---------------
 
 The *Code of Conduct*, adapted from the `Contributor Covenant 1.4 <https://www.contributor-covenant.org/version/1/4/code-of-conduct.html>`__,
-is available on the `Code of Conduct <https://www.colour-science.org/code-of-conduct/>`__ page.
+is available on the `Code of Conduct <https://www.colour-science.org/code-of-conduct>`__ page.
 
 Contact & Social
 ----------------

@@ -119,9 +119,10 @@ def requirements(ctx: Context):
 
     message_box('Exporting "requirements.txt" file...')
     ctx.run(
-        "poetry run pip list --format=freeze | "
-        'egrep -v "github.com/colour-science" '
-        "> requirements.txt"
+        "poetry export -f requirements.txt "
+        "--without-hashes "
+        "--with dev "
+        "--output requirements.txt"
     )
 
 
