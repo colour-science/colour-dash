@@ -4,13 +4,13 @@ Common
 """
 
 from io import StringIO
+
 from colour.adaptation import CHROMATIC_ADAPTATION_TRANSFORMS
 from colour.colorimetry import CCS_ILLUMINANTS
+from colour.hints import ArrayLike, Dict, Iterable, List
 from colour.io import LUTOperatorMatrix, write_LUT_SonySPImtx
 from colour.models import RGB_COLOURSPACES
 from colour.utilities import as_float_array
-
-from colour.hints import ArrayLike, Dict, Iterable, List
 
 __author__ = "Colour Developers"
 __copyright__ = "Copyright 2018 Colour Developers"

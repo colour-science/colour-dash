@@ -4,12 +4,12 @@ Index
 """
 
 import dash
-from dash.dependencies import Input, Output
 from dash.dcc import Link, Location, Markdown
-from dash.html import A, Div, H3, P
+from dash.dependencies import Input, Output
+from dash.html import H3, A, Div, P
 
-import apps.rgb_colourspace_transformation_matrix as app_1
 import apps.rgb_colourspace_chromatically_adapted_primaries as app_2
+import apps.rgb_colourspace_transformation_matrix as app_1
 from app import APP, SERVER  # noqa: F401
 
 __author__ = "Colour Developers"

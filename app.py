@@ -3,11 +3,11 @@ Application
 ===========
 """
 
-import dash
 import os
+
+import dash
 from colour.hints import Optional
 from flask import Flask
-
 
 __author__ = "Colour Developers"
 __copyright__ = "Copyright 2018 Colour Developers"

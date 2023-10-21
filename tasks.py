@@ -4,20 +4,19 @@ Invoke - Tasks
 """
 
 import contextlib
+import inspect
 import platform
-from invoke.exceptions import Failure
 
 from colour.utilities import message_box
+from invoke.exceptions import Failure
 
 import app
-
-import inspect
 
 if not hasattr(inspect, "getargspec"):
     inspect.getargspec = inspect.getfullargspec  # pyright: ignore
 
-from invoke.tasks import task
 from invoke.context import Context
+from invoke.tasks import task
 
 __author__ = "Colour Developers"
 __copyright__ = "Copyright 2018 Colour Developers"
