@@ -82,9 +82,9 @@ def _uid(id_):
 STATE_DEFAULT = {
     "input_colourspace": OPTIONS_RGB_COLOURSPACE[0]["value"],
     "output_colourspace": OPTIONS_RGB_COLOURSPACE[0]["value"],
-    "chromatic_adaptation_transform": OPTIONS_CHROMATIC_ADAPTATION_TRANSFORM[
-        0
-    ]["value"],
+    "chromatic_adaptation_transform": OPTIONS_CHROMATIC_ADAPTATION_TRANSFORM[0][
+        "value"
+    ],
     "formatter": "str",
     "decimals": 10,
 }
@@ -125,9 +125,7 @@ LAYOUT: Div = Div(
                                 *OPTIONS_CHROMATIC_ADAPTATION_TRANSFORM,
                                 {"label": "None", "value": "None"},
                             ],
-                            value=STATE_DEFAULT[
-                                "chromatic_adaptation_transform"
-                            ],
+                            value=STATE_DEFAULT["chromatic_adaptation_transform"],
                             clearable=False,
                             className="app-widget",
                         ),

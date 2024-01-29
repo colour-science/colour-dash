@@ -52,7 +52,7 @@ plotly = "*"
 [tool.poetry.group.dev.dependencies]
 black = "*"
 blackdoc = "*"
-coverage = "!= 6.3"
+coverage = ">= 6, < 7"
 coveralls = "*"
 flynt = "*"
 invoke = "*"
@@ -75,6 +75,9 @@ exclude = '''
   | dist
 )/
 '''
+
+[tool.codespell]
+skip = 'BIBLIOGRAPHY.bib,CONTRIBUTORS.rst,*.ipynb'
 
 [tool.flynt]
 line_length=999
@@ -188,6 +191,9 @@ convention = "numpy"
 "index.py" = ["INP"]
 "setup.py" = ["INP"]
 "tasks.py" = ["INP"]
+
+[tool.ruff.format]
+docstring-code-format = true
 
 [build-system]
 requires = [ "poetry_core>=1.0.0" ]

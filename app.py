@@ -21,9 +21,7 @@ __application_name__ = "Colour - Dash"
 __major_version__ = "0"
 __minor_version__ = "2"
 __change_version__ = "7"
-__version__ = ".".join(
-    (__major_version__, __minor_version__, __change_version__)
-)
+__version__ = ".".join((__major_version__, __minor_version__, __change_version__))
 
 __all__ = ["SERVER", "SERVER_URL", "APP"]
 

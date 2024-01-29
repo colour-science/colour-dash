@@ -7,7 +7,7 @@ Colour - Dash
 -   **Thomas Mansencal**, *Technology Supervisor @ Wētā FX*
 
     Project coordination, writing.
-    
+
 About
 -----
 

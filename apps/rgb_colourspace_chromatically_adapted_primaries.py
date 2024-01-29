@@ -78,9 +78,9 @@ def _uid(id_):
 STATE_DEFAULT = {
     "colourspace": OPTIONS_RGB_COLOURSPACE[0]["value"],
     "illuminant": OPTIONS_ILLUMINANTS[0]["value"],
-    "chromatic_adaptation_transform": OPTIONS_CHROMATIC_ADAPTATION_TRANSFORM[
-        0
-    ]["value"],
+    "chromatic_adaptation_transform": OPTIONS_CHROMATIC_ADAPTATION_TRANSFORM[0][
+        "value"
+    ],
     "formatter": "str",
     "decimals": 10,
 }
@@ -118,9 +118,7 @@ LAYOUT: Div = Div(
                         Dropdown(
                             id=_uid("chromatic-adaptation-transform"),
                             options=OPTIONS_CHROMATIC_ADAPTATION_TRANSFORM,
-                            value=STATE_DEFAULT[
-                                "chromatic_adaptation_transform"
-                            ],
+                            value=STATE_DEFAULT["chromatic_adaptation_transform"],
                             clearable=False,
                             className="app-widget",
                         ),
@@ -215,9 +213,7 @@ LAYOUT : Div
 
 
 @APP.callback(
-    Output(
-        component_id=_uid("primaries-output"), component_property="children"
-    ),
+    Output(component_id=_uid("primaries-output"), component_property="children"),
     [
         Input(_uid("colourspace"), "value"),
         Input(_uid("illuminant"), "value"),

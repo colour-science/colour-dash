@@ -50,9 +50,7 @@ instance.
 
 OPTIONS_ILLUMINANTS: List[Dict] = [
     {"label": key, "value": key}
-    for key in sorted(
-        CCS_ILLUMINANTS["CIE 1931 2 Degree Standard Observer"].keys()
-    )
+    for key in sorted(CCS_ILLUMINANTS["CIE 1931 2 Degree Standard Observer"].keys())
 ]
 """
 *CIE 1931 2 Degree Standard Observer* illuminant options for a
@@ -69,9 +67,7 @@ ColorMatrix {{
  selected true
  xpos 0
  ypos 0
-}}"""[
-    1:
-]
+}}"""[1:]
 """
 *The Foundry Nuke* *ColorMatrix* node template.
 """
@@ -129,7 +125,9 @@ def spimtx_format_matrix(M: ArrayLike, decimals: int = 10) -> str:
     string = StringIO()
 
     write_LUT_SonySPImtx(
-        LUTOperatorMatrix(M), string, decimals  # pyright: ignore
+        LUTOperatorMatrix(M),
+        string,
+        decimals,  # pyright: ignore
     )
 
     return string.getvalue()
@@ -151,9 +149,7 @@ TEMPLATE_OCIO_COLORSPACE = """
       name: Linear {input_colourspace} to Linear {output_colourspace}
       children:
         - !<MatrixTransform> {{matrix: {matrix}}}
-"""[
-    1:
-]
+"""[1:]
 """
 *OpenColorIO* *ColorSpace* template.
 """
