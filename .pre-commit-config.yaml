@@ -3,17 +3,17 @@ repos:
     rev: '1.0.1'
     hooks:
     -   id: flynt
--   repo: https://github.com/charliermarsh/ruff-pre-commit
-    rev: 'v0.0.285'
+-   repo: https://github.com/astral-sh/ruff-pre-commit
+    rev: 'v0.3.4'
     hooks:
     - id: ruff
 -   repo: https://github.com/psf/black
-    rev: 23.7.0
+    rev: 24.3.0
     hooks:
     - id: black
       language_version: python3.9
 -   repo: https://github.com/keewis/blackdoc
-    rev: v0.3.8
+    rev: v0.3.9
     hooks:
     - id: blackdoc
       language_version: python3.9
