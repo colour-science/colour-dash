@@ -59,7 +59,8 @@ OPTIONS_ILLUMINANTS: List[Dict] = [
 :class:`Dropdown`class instance.
 """
 
-TEMPLATE_NUKE_NODE_COLORMATRIX: str = """
+TEMPLATE_NUKE_NODE_COLORMATRIX: str = (
+    """
 ColorMatrix {{
  inputs 0
  matrix {{
@@ -70,8 +71,9 @@ ColorMatrix {{
  xpos 0
  ypos 0
 }}"""[
-    1:
-]
+        1:
+    ]
+)
 """
 *The Foundry Nuke* *ColorMatrix* node template.
 """
