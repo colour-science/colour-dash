@@ -4,5 +4,8 @@
 .DS_Store
 .coverage*
 .idea
+.python-version
+
 __pycache__
-poetry.lock
+
+uv.lock

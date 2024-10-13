@@ -48,7 +48,7 @@ App name.
 
 APP_PATH: str = f"/apps/{__name__.split('.')[-1]}"
 """
-App path, i.e. app url.
+App path, i.e., app url.
 """
 
 APP_DESCRIPTION: str = (
@@ -206,7 +206,7 @@ LAYOUT: Div = Div(
     className="row",
 )
 """
-App layout, i.e. :class:`Div` class instance.
+App layout, i.e., :class:`Div` class instance.
 
 LAYOUT : Div
 """

@@ -1,13 +1,16 @@
-[tool.poetry]
+[project]
 name = "colour-dash"
 version = "0.2.7"
 description = "Various colour science Dash apps built on top of Colour"
-license = "BSD-3-Clause"
-authors = [ "Colour Developers <colour-developers@colour-science.org>" ]
-maintainers = [ "Colour Developers <colour-developers@colour-science.org>" ]
-readme = 'README.rst'
-repository = "https://github.com/colour-science/colour-dash"
-homepage = "https://www.colour-science.org/"
+readme = "README.rst"
+requires-python = ">=3.10,<3.14"
+authors = [
+    { name = "Colour Developers", email = "colour-developers@colour-science.org" },
+]
+maintainers = [
+    { name = "Colour Developers", email = "colour-developers@colour-science.org" }
+]
+license = { text = "BSD-3-Clause" }
 keywords = [
     "color",
     "color-science",
@@ -37,47 +40,37 @@ classifiers = [
     "Topic :: Scientific/Engineering",
     "Topic :: Software Development"
 ]
+dependencies = [
+    "colour-science>=0.4.5",
+    "dash",
+    "dash-renderer",
+    "gunicorn",
+    "imageio>=2,<3",
+    "numpy>=1.24,<3",
+    "plotly",
+    "scipy>=1.10,<2",
+    "typing-extensions>=4,<5",
+]
 
-[tool.poetry.dependencies]
-python = ">= 3.9, < 3.12"
-colour-science = ">= 0.4.3"
-imageio = ">= 2, < 3"
-numpy = ">= 1.22, < 2"
-scipy = ">= 1.8, < 2"
-dash = "*"
-dash-renderer = "*"
-gunicorn = "*"
-plotly = "*"
+[project.urls]
+Homepage = "https://www.colour-science.org"
+Repository = "https://github.com/colour-science/colour-dash"
+Issues = "https://github.com/colour-science/colour-dash/issues"
+Changelog = "https://github.com/colour-science/colour-dash/releases"
 
-[tool.poetry.group.dev.dependencies]
-black = "*"
-blackdoc = "*"
-coverage = ">= 6, < 7"
-coveralls = "*"
-flynt = "*"
-invoke = "*"
-jupyter = "*"
-pre-commit = ">= 3.5"
-pyright = "*"
-pytest = "*"
-pytest-cov = "*"
-pytest-xdist = "*"
-ruff = "*"
-toml = "*"
-twine = "*"
-
-[tool.black]
-line-length = 79
-exclude = '''
-/(
-    \.git
-  | build
-  | dist
-)/
-'''
+[tool.uv]
+dev-dependencies = [
+    "coverage",
+    "coveralls",
+    "invoke",
+    "pre-commit",
+    "pyright",
+    "toml",
+    "twine",
+]
 
 [tool.codespell]
-skip = 'BIBLIOGRAPHY.bib,CONTRIBUTORS.rst,*.ipynb'
+skip = "BIBLIOGRAPHY.bib,CONTRIBUTORS.rst,*.ipynb"
 
 [tool.flynt]
 line_length=999
@@ -194,7 +187,3 @@ convention = "numpy"
 
 [tool.ruff.format]
 docstring-code-format = true
-
-[build-system]
-requires = [ "poetry_core>=1.0.0" ]
-build-backend = "poetry.core.masonry.api"

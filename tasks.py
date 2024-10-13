@@ -54,7 +54,7 @@ def clean(ctx: Context, bytecode: bool = False):
     Parameters
     ----------
     bytecode : bool, optional
-        Whether to clean the bytecode files, e.g. *.pyc* files.
+        Whether to clean the bytecode files, e.g., *.pyc* files.
     """
 
     message_box("Cleaning project...")
@@ -117,12 +117,7 @@ def requirements(ctx: Context):
     """
 
     message_box('Exporting "requirements.txt" file...')
-    ctx.run(
-        "poetry export -f requirements.txt "
-        "--without-hashes "
-        "--with dev "
-        "--output requirements.txt"
-    )
+    ctx.run('uv export --no-hashes --all-extras | grep -v "-e \\." > requirements.txt')
 
 
 @task(requirements)

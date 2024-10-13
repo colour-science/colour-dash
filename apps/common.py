@@ -75,7 +75,7 @@ ColorMatrix {{
 
 def nuke_format_matrix(M: ArrayLike, decimals: int = 10) -> str:
     """
-    Format given matrix for usage in *The Foundry Nuke*, i.e. *TCL* code for
+    Format given matrix for usage in *The Foundry Nuke*, i.e., *TCL* code for
     a *ColorMatrix* node.
 
     Parameters
