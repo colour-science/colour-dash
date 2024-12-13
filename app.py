@@ -6,7 +6,6 @@ Application
 import os
 
 import dash
-from colour.hints import Optional
 from flask import Flask
 
 __author__ = "Colour Developers"
@@ -30,7 +29,7 @@ SERVER: Flask = Flask(__name__)
 *Flask* server hosting the *Dash* app.
 """
 
-SERVER_URL: Optional[str] = os.environ.get("COLOUR_DASH_SERVER")
+SERVER_URL: str | None = os.environ.get("COLOUR_DASH_SERVER")
 """
 Server url used to construct permanent links for the individual apps.
 """

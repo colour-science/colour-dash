@@ -70,10 +70,8 @@ dev-dependencies = [
 ]
 
 [tool.codespell]
+ignore-words-list = "socio-economic"
 skip = "BIBLIOGRAPHY.bib,CONTRIBUTORS.rst,*.ipynb"
-
-[tool.flynt]
-line_length=999
 
 [tool.isort]
 ensure_newline_before_comments = true
