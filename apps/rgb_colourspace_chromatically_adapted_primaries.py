@@ -3,6 +3,8 @@ RGB Colourspace Chromatically Adapted Primaries Application
 ===========================================================
 """
 
+from __future__ import annotations
+
 import sys
 import urllib.parse
 from contextlib import suppress
@@ -67,7 +69,7 @@ App unique id.
 """
 
 
-def _uid(id_):
+def _uid(id_: str) -> str:
     """
     Generate a unique id for given id by appending the application *UID*.
     """
@@ -313,15 +315,13 @@ def update_state_on_url_query_change(href: str) -> tuple:
 
         return STATE_DEFAULT[value.replace("-", "_")]
 
-    state = (
+    return (
         value_from_query("colourspace"),
         value_from_query("illuminant"),
         value_from_query("chromatic-adaptation-transform"),
         value_from_query("formatter"),
         int(value_from_query("decimals")),
     )
-
-    return state
 
 
 @APP.callback(

@@ -3,6 +3,8 @@ RGB Colourspace Transformation Matrix Application
 =================================================
 """
 
+from __future__ import annotations
+
 import re
 import sys
 import urllib.parse
@@ -71,7 +73,7 @@ App unique id.
 """
 
 
-def _uid(id_):
+def _uid(id_: str) -> str:
     """
     Generate a unique id for given id by appending the application *UID*.
     """
@@ -301,8 +303,7 @@ def set_RGB_to_RGB_matrix_output(
                 pattern = r"\(|\)"
                 string = re.sub(pattern, "", string)
                 pattern = r"\s-\s|\s|-|\.|/"
-                string = re.sub(pattern, "_", string)
-                return string
+                return re.sub(pattern, "_", string)
 
             M_f = TEMPLATE_NUKE_NODE_COLORMATRIX.format(
                 name=(
@@ -373,15 +374,13 @@ def update_state_on_url_query_change(href: str) -> tuple:
 
         return STATE_DEFAULT[value.replace("-", "_")]
 
-    state = (
+    return (
         value_from_query("input-colourspace"),
         value_from_query("output-colourspace"),
         value_from_query("chromatic-adaptation-transform"),
         value_from_query("formatter"),
         int(value_from_query("decimals")),
     )
-
-    return state
 
 
 @APP.callback(

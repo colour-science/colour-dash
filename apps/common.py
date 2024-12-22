@@ -3,11 +3,17 @@ Common
 ======
 """
 
+from __future__ import annotations
+
+import typing
 from io import StringIO
 
 from colour.adaptation import CHROMATIC_ADAPTATION_TRANSFORMS
 from colour.colorimetry import CCS_ILLUMINANTS
-from colour.hints import ArrayLike, Dict, Iterable, List
+
+if typing.TYPE_CHECKING:
+    from colour.hints import ArrayLike, Dict, Iterable, List, NDArrayFloat
+
 from colour.io import LUTOperatorMatrix, write_LUT_SonySPImtx
 from colour.models import RGB_COLOURSPACES
 from colour.utilities import as_float_array
@@ -126,8 +132,8 @@ def spimtx_format_matrix(M: ArrayLike, decimals: int = 10) -> str:
 
     write_LUT_SonySPImtx(
         LUTOperatorMatrix(M),
-        string,
-        decimals,  # pyright: ignore
+        string,  # pyright: ignore
+        decimals,
     )
 
     return string.getvalue()
@@ -155,7 +161,7 @@ TEMPLATE_OCIO_COLORSPACE = """
 """
 
 
-def matrix_3x3_to_4x4(M):
+def matrix_3x3_to_4x4(M: ArrayLike) -> NDArrayFloat:
     """
     Convert given 3x3 matrix :math:`M` to a raveled 4x4 matrix.
 
