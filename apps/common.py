@@ -132,7 +132,7 @@ def spimtx_format_matrix(M: ArrayLike, decimals: int = 10) -> str:
 
     write_LUT_SonySPImtx(
         LUTOperatorMatrix(M),
-        string,  # pyright: ignore
+        string,
         decimals,
     )
 
