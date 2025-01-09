@@ -3,21 +3,25 @@ Invoke - Tasks
 ==============
 """
 
+from __future__ import annotations
+
 import contextlib
+import inspect
 import platform
-from invoke.exceptions import Failure
+import typing
 
 from colour.utilities import message_box
+from invoke.exceptions import Failure
 
 import app
-
-import inspect
 
 if not hasattr(inspect, "getargspec"):
     inspect.getargspec = inspect.getfullargspec  # pyright: ignore
 
+if typing.TYPE_CHECKING:
+    from invoke.context import Context
+
 from invoke.tasks import task
-from invoke.context import Context
 
 __author__ = "Colour Developers"
 __copyright__ = "Copyright 2018 Colour Developers"
@@ -48,14 +52,14 @@ CONTAINER: str = APPLICATION_NAME.replace(" ", "").lower()
 
 
 @task
-def clean(ctx: Context, bytecode: bool = False):
+def clean(ctx: Context, bytecode: bool = False) -> None:
     """
     Clean the project.
 
     Parameters
     ----------
     bytecode : bool, optional
-        Whether to clean the bytecode files, e.g. *.pyc* files.
+        Whether to clean the bytecode files, e.g., *.pyc* files.
     """
 
     message_box("Cleaning project...")
@@ -74,7 +78,7 @@ def clean(ctx: Context, bytecode: bool = False):
 def quality(
     ctx: Context,
     pyright: bool = True,
-):
+) -> None:
     """
     Check the codebase with *Pyright*.
 
@@ -92,7 +96,7 @@ def quality(
 
 
 @task
-def precommit(ctx: Context):
+def precommit(ctx: Context) -> None:
     """
     Run the "pre-commit" hooks on the codebase.
 
@@ -107,7 +111,7 @@ def precommit(ctx: Context):
 
 
 @task
-def requirements(ctx: Context):
+def requirements(ctx: Context) -> None:
     """
     Export the *requirements.txt* file.
 
@@ -118,16 +122,11 @@ def requirements(ctx: Context):
     """
 
     message_box('Exporting "requirements.txt" file...')
-    ctx.run(
-        "poetry export -f requirements.txt "
-        "--without-hashes "
-        "--with dev "
-        "--output requirements.txt"
-    )
+    ctx.run('uv export --no-hashes --all-extras | grep -v "-e \\." > requirements.txt')
 
 
 @task(requirements)
-def docker_build(ctx: Context):
+def docker_build(ctx: Context) -> None:
     """
     Build the *docker* image.
 
@@ -149,7 +148,7 @@ def docker_build(ctx: Context):
 
 
 @task
-def docker_remove(ctx: Context):
+def docker_remove(ctx: Context) -> None:
     """
     Stop and remove the *docker* container.
 
@@ -169,7 +168,7 @@ def docker_remove(ctx: Context):
 
 
 @task(docker_remove, docker_build)
-def docker_run(ctx: Context):
+def docker_run(ctx: Context) -> None:
     """
     Run the *docker* container.
 
@@ -195,7 +194,7 @@ def docker_run(ctx: Context):
 
 
 @task(clean, quality, precommit, docker_run)
-def docker_push(ctx: Context):
+def docker_push(ctx: Context) -> None:
     """
     Push the *docker* container.
 

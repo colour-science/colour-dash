@@ -3,11 +3,10 @@ Application
 ===========
 """
 
-import dash
 import os
-from colour.hints import Optional
-from flask import Flask
 
+import dash
+from flask import Flask
 
 __author__ = "Colour Developers"
 __copyright__ = "Copyright 2018 Colour Developers"
@@ -20,10 +19,8 @@ __application_name__ = "Colour - Dash"
 
 __major_version__ = "0"
 __minor_version__ = "2"
-__change_version__ = "7"
-__version__ = ".".join(
-    (__major_version__, __minor_version__, __change_version__)
-)
+__change_version__ = "8"
+__version__ = f"{__major_version__}.{__minor_version__}.{__change_version__}"
 
 __all__ = ["SERVER", "SERVER_URL", "APP"]
 
@@ -32,16 +29,16 @@ SERVER: Flask = Flask(__name__)
 *Flask* server hosting the *Dash* app.
 """
 
-SERVER_URL: Optional[str] = os.environ.get("COLOUR_DASH_SERVER")
+SERVER_URL: str | None = os.environ.get("COLOUR_DASH_SERVER")
 """
 Server url used to construct permanent links for the individual apps.
 """
 
 APP: dash.Dash = dash.Dash(
     __application_name__,
-    external_scripts=os.environ.get("COLOUR_DASH_JS", "").split(","),
-    external_stylesheets=os.environ.get("COLOUR_DASH_CSS", "").split(","),
-    server=SERVER,  # pyright: ignore
+    external_scripts=os.environ.get("COLOUR_DASH_JS", "").split(","),  # pyright: ignore
+    external_stylesheets=os.environ.get("COLOUR_DASH_CSS", "").split(","),  # pyright: ignore
+    server=SERVER,
 )
 """
 *Dash* app.

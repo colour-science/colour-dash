@@ -3,17 +3,19 @@ RGB Colourspace Transformation Matrix Application
 =================================================
 """
 
-import urllib.parse
+from __future__ import annotations
+
 import re
 import sys
+import urllib.parse
 from contextlib import suppress
-from dash.dcc import Dropdown, Location, Link, Markdown, Slider
-from dash.dependencies import Input, Output
-from dash.html import A, Button, Code, Div, H3, H5, Li, Pre, Ul
 from urllib.parse import parse_qs, urlencode, urlparse
 
 from colour.models import RGB_COLOURSPACES, matrix_RGB_to_RGB
 from colour.utilities import numpy_print_options
+from dash.dcc import Dropdown, Link, Location, Markdown, Slider
+from dash.dependencies import Input, Output
+from dash.html import H3, H5, A, Button, Code, Div, Li, Pre, Ul
 
 from app import APP, SERVER_URL
 from apps.common import (
@@ -52,7 +54,7 @@ App name.
 
 APP_PATH: str = f"/apps/{__name__.split('.')[-1]}"
 """
-App path, i.e. app url.
+App path, i.e., app url.
 """
 
 APP_DESCRIPTION: str = (
@@ -71,7 +73,7 @@ App unique id.
 """
 
 
-def _uid(id_):
+def _uid(id_: str) -> str:
     """
     Generate a unique id for given id by appending the application *UID*.
     """
@@ -82,9 +84,9 @@ def _uid(id_):
 STATE_DEFAULT = {
     "input_colourspace": OPTIONS_RGB_COLOURSPACE[0]["value"],
     "output_colourspace": OPTIONS_RGB_COLOURSPACE[0]["value"],
-    "chromatic_adaptation_transform": OPTIONS_CHROMATIC_ADAPTATION_TRANSFORM[
-        0
-    ]["value"],
+    "chromatic_adaptation_transform": OPTIONS_CHROMATIC_ADAPTATION_TRANSFORM[0][
+        "value"
+    ],
     "formatter": "str",
     "decimals": 10,
 }
@@ -125,9 +127,7 @@ LAYOUT: Div = Div(
                                 *OPTIONS_CHROMATIC_ADAPTATION_TRANSFORM,
                                 {"label": "None", "value": "None"},
                             ],
-                            value=STATE_DEFAULT[
-                                "chromatic_adaptation_transform"
-                            ],
+                            value=STATE_DEFAULT["chromatic_adaptation_transform"],
                             clearable=False,
                             className="app-widget",
                         ),
@@ -223,7 +223,7 @@ LAYOUT: Div = Div(
     className="row",
 )
 """
-App layout, i.e. :class:`Div` class instance.
+App layout, i.e., :class:`Div` class instance.
 
 LAYOUT : Div
 """
@@ -303,8 +303,7 @@ def set_RGB_to_RGB_matrix_output(
                 pattern = r"\(|\)"
                 string = re.sub(pattern, "", string)
                 pattern = r"\s-\s|\s|-|\.|/"
-                string = re.sub(pattern, "_", string)
-                return string
+                return re.sub(pattern, "_", string)
 
             M_f = TEMPLATE_NUKE_NODE_COLORMATRIX.format(
                 name=(
@@ -375,15 +374,13 @@ def update_state_on_url_query_change(href: str) -> tuple:
 
         return STATE_DEFAULT[value.replace("-", "_")]
 
-    state = (
+    return (
         value_from_query("input-colourspace"),
         value_from_query("output-colourspace"),
         value_from_query("chromatic-adaptation-transform"),
         value_from_query("formatter"),
         int(value_from_query("decimals")),
     )
-
-    return state
 
 
 @APP.callback(
