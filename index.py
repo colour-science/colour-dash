@@ -3,13 +3,19 @@ Index
 =====
 """
 
-import dash
-from dash.dependencies import Input, Output
-from dash.dcc import Link, Location, Markdown
-from dash.html import A, Div, H3, P
+from __future__ import annotations
 
-import apps.rgb_colourspace_transformation_matrix as app_1
+import typing
+
+if typing.TYPE_CHECKING:
+    import dash
+
+from dash.dcc import Link, Location, Markdown
+from dash.dependencies import Input, Output
+from dash.html import H3, A, Div, P
+
 import apps.rgb_colourspace_chromatically_adapted_primaries as app_2
+import apps.rgb_colourspace_transformation_matrix as app_1
 from app import APP, SERVER  # noqa: F401
 
 __author__ = "Colour Developers"
@@ -25,7 +31,7 @@ APP.layout = Div([Location(id="url", refresh=False), Div(id="apps")])
 
 
 @APP.callback(Output("apps", "children"), [Input("url", "pathname")])
-def load_app(app: dash.Dash):
+def load_app(app: dash.Dash) -> Div:
     """
     Load given app into the appropriate :class:`Div` class instance.
 
@@ -42,50 +48,51 @@ def load_app(app: dash.Dash):
 
     if app == app_1.APP_PATH:
         return app_1.LAYOUT
-    elif app == app_2.APP_PATH:
+
+    if app == app_2.APP_PATH:
         return app_2.LAYOUT
-    else:
-        return Div(
-            [
-                P(
-                    [
-                        "Various colour science ",
-                        A(
-                            "Dash",
-                            href="https://dash.plot.ly/",
-                            target="_blank",
-                        ),
-                        " apps built on top of \n",
-                        A(
-                            "Colour",
-                            href="https://github.com/colour-science/colour",
-                            target="_blank",
-                        ),
-                        ".",
-                    ]
-                ),
-                H3(
-                    [
-                        Link(
-                            app_1.APP_NAME,
-                            href=app_1.APP_PATH,
-                            className="app-link",
-                        )
-                    ]
-                ),
-                Markdown(app_1.APP_DESCRIPTION.replace("This app c", "C")),
-                H3(
-                    [
-                        Link(
-                            app_2.APP_NAME,
-                            href=app_2.APP_PATH,
-                            className="app-link",
-                        )
-                    ]
-                ),
-                Markdown(app_2.APP_DESCRIPTION.replace("This app c", "C")),
-            ]
-        )
+
+    return Div(
+        [
+            P(
+                [
+                    "Various colour science ",
+                    A(
+                        "Dash",
+                        href="https://dash.plot.ly/",
+                        target="_blank",
+                    ),
+                    " apps built on top of \n",
+                    A(
+                        "Colour",
+                        href="https://github.com/colour-science/colour",
+                        target="_blank",
+                    ),
+                    ".",
+                ]
+            ),
+            H3(
+                [
+                    Link(
+                        app_1.APP_NAME,
+                        href=app_1.APP_PATH,
+                        className="app-link",
+                    )
+                ]
+            ),
+            Markdown(app_1.APP_DESCRIPTION.replace("This app c", "C")),
+            H3(
+                [
+                    Link(
+                        app_2.APP_NAME,
+                        href=app_2.APP_PATH,
+                        className="app-link",
+                    )
+                ]
+            ),
+            Markdown(app_2.APP_DESCRIPTION.replace("This app c", "C")),
+        ]
+    )
 
 
 if __name__ == "__main__":

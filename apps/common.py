@@ -3,14 +3,20 @@ Common
 ======
 """
 
+from __future__ import annotations
+
+import typing
 from io import StringIO
+
 from colour.adaptation import CHROMATIC_ADAPTATION_TRANSFORMS
 from colour.colorimetry import CCS_ILLUMINANTS
+
+if typing.TYPE_CHECKING:
+    from colour.hints import ArrayLike, Dict, Iterable, List, NDArrayFloat
+
 from colour.io import LUTOperatorMatrix, write_LUT_SonySPImtx
 from colour.models import RGB_COLOURSPACES
 from colour.utilities import as_float_array
-
-from colour.hints import ArrayLike, Dict, Iterable, List
 
 __author__ = "Colour Developers"
 __copyright__ = "Copyright 2018 Colour Developers"
@@ -50,9 +56,7 @@ instance.
 
 OPTIONS_ILLUMINANTS: List[Dict] = [
     {"label": key, "value": key}
-    for key in sorted(
-        CCS_ILLUMINANTS["CIE 1931 2 Degree Standard Observer"].keys()
-    )
+    for key in sorted(CCS_ILLUMINANTS["CIE 1931 2 Degree Standard Observer"].keys())
 ]
 """
 *CIE 1931 2 Degree Standard Observer* illuminant options for a
@@ -69,9 +73,7 @@ ColorMatrix {{
  selected true
  xpos 0
  ypos 0
-}}"""[
-    1:
-]
+}}"""[1:]
 """
 *The Foundry Nuke* *ColorMatrix* node template.
 """
@@ -79,7 +81,7 @@ ColorMatrix {{
 
 def nuke_format_matrix(M: ArrayLike, decimals: int = 10) -> str:
     """
-    Format given matrix for usage in *The Foundry Nuke*, i.e. *TCL* code for
+    Format given matrix for usage in *The Foundry Nuke*, i.e., *TCL* code for
     a *ColorMatrix* node.
 
     Parameters
@@ -129,7 +131,9 @@ def spimtx_format_matrix(M: ArrayLike, decimals: int = 10) -> str:
     string = StringIO()
 
     write_LUT_SonySPImtx(
-        LUTOperatorMatrix(M), string, decimals  # pyright: ignore
+        LUTOperatorMatrix(M),
+        string,  # pyright: ignore
+        decimals,
     )
 
     return string.getvalue()
@@ -151,15 +155,13 @@ TEMPLATE_OCIO_COLORSPACE = """
       name: Linear {input_colourspace} to Linear {output_colourspace}
       children:
         - !<MatrixTransform> {{matrix: {matrix}}}
-"""[
-    1:
-]
+"""[1:]
 """
 *OpenColorIO* *ColorSpace* template.
 """
 
 
-def matrix_3x3_to_4x4(M):
+def matrix_3x3_to_4x4(M: ArrayLike) -> NDArrayFloat:
     """
     Convert given 3x3 matrix :math:`M` to a raveled 4x4 matrix.
 

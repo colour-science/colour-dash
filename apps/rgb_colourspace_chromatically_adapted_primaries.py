@@ -3,17 +3,19 @@ RGB Colourspace Chromatically Adapted Primaries Application
 ===========================================================
 """
 
+from __future__ import annotations
+
 import sys
 import urllib.parse
 from contextlib import suppress
-from dash.dcc import Dropdown, Link, Location, Markdown, Slider
-from dash.dependencies import Input, Output
-from dash.html import A, Button, Code, Div, H3, H5, Li, Pre, Ul
 from urllib.parse import parse_qs, urlencode, urlparse
 
 from colour.colorimetry import CCS_ILLUMINANTS
 from colour.models import RGB_COLOURSPACES, chromatically_adapted_primaries
 from colour.utilities import numpy_print_options
+from dash.dcc import Dropdown, Link, Location, Markdown, Slider
+from dash.dependencies import Input, Output
+from dash.html import H3, H5, A, Button, Code, Div, Li, Pre, Ul
 
 from app import APP, SERVER_URL
 from apps.common import (
@@ -48,7 +50,7 @@ App name.
 
 APP_PATH: str = f"/apps/{__name__.split('.')[-1]}"
 """
-App path, i.e. app url.
+App path, i.e., app url.
 """
 
 APP_DESCRIPTION: str = (
@@ -67,7 +69,7 @@ App unique id.
 """
 
 
-def _uid(id_):
+def _uid(id_: str) -> str:
     """
     Generate a unique id for given id by appending the application *UID*.
     """
@@ -78,9 +80,9 @@ def _uid(id_):
 STATE_DEFAULT = {
     "colourspace": OPTIONS_RGB_COLOURSPACE[0]["value"],
     "illuminant": OPTIONS_ILLUMINANTS[0]["value"],
-    "chromatic_adaptation_transform": OPTIONS_CHROMATIC_ADAPTATION_TRANSFORM[
-        0
-    ]["value"],
+    "chromatic_adaptation_transform": OPTIONS_CHROMATIC_ADAPTATION_TRANSFORM[0][
+        "value"
+    ],
     "formatter": "str",
     "decimals": 10,
 }
@@ -118,9 +120,7 @@ LAYOUT: Div = Div(
                         Dropdown(
                             id=_uid("chromatic-adaptation-transform"),
                             options=OPTIONS_CHROMATIC_ADAPTATION_TRANSFORM,
-                            value=STATE_DEFAULT[
-                                "chromatic_adaptation_transform"
-                            ],
+                            value=STATE_DEFAULT["chromatic_adaptation_transform"],
                             clearable=False,
                             className="app-widget",
                         ),
@@ -208,16 +208,14 @@ LAYOUT: Div = Div(
     className="row",
 )
 """
-App layout, i.e. :class:`Div` class instance.
+App layout, i.e., :class:`Div` class instance.
 
 LAYOUT : Div
 """
 
 
 @APP.callback(
-    Output(
-        component_id=_uid("primaries-output"), component_property="children"
-    ),
+    Output(component_id=_uid("primaries-output"), component_property="children"),
     [
         Input(_uid("colourspace"), "value"),
         Input(_uid("illuminant"), "value"),
@@ -317,15 +315,13 @@ def update_state_on_url_query_change(href: str) -> tuple:
 
         return STATE_DEFAULT[value.replace("-", "_")]
 
-    state = (
+    return (
         value_from_query("colourspace"),
         value_from_query("illuminant"),
         value_from_query("chromatic-adaptation-transform"),
         value_from_query("formatter"),
         int(value_from_query("decimals")),
     )
-
-    return state
 
 
 @APP.callback(
