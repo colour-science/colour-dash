@@ -41,7 +41,7 @@ classifiers = [
     "Topic :: Software Development"
 ]
 dependencies = [
-    "colour-science>=0.4.5",
+    "colour-science>=0.4.6",
     "dash",
     "dash-renderer",
     "gunicorn",
@@ -51,6 +51,9 @@ dependencies = [
     "scipy>=1.10,<2",
     "typing-extensions>=4,<5",
 ]
+
+[tool.uv.sources]
+colour-science = { git = "https://github.com/colour-science/colour", branch = "develop" }
 
 [project.urls]
 Homepage = "https://www.colour-science.org"
