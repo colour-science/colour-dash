@@ -8,7 +8,7 @@ cfgv==3.4.0
 charset-normalizer==3.4.0
 click==8.1.8
 colorama==0.4.6 ; platform_system == 'Windows'
-colour-science==0.4.6
+colour-science @ git+https://github.com/colour-science/colour@9c00f804798f70aa6f71476f2d5fa8b4b355bca1
 coverage==7.6.9
 coveralls==4.0.1
 cryptography==44.0.0 ; platform_machine != 'ppc64le' and platform_machine != 's390x' and sys_platform == 'linux'
