@@ -381,7 +381,7 @@ APP.clientside_callback(
     f"""
     function(n_clicks) {{
         var primariesOutput = document.getElementById(\
-"{_uid('primaries-output')}");
+"{_uid("primaries-output")}");
         var content = primariesOutput.textContent;
         navigator.clipboard.writeText(content).then(function() {{
         }}, function() {{
