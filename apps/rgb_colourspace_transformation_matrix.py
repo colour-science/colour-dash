@@ -307,9 +307,7 @@ def set_RGB_to_RGB_matrix_output(
 
             M_f = TEMPLATE_NUKE_NODE_COLORMATRIX.format(
                 name=(
-                    f"{slugify(input_colourspace)}"
-                    f"__to__"
-                    f"{slugify(output_colourspace)}"
+                    f"{slugify(input_colourspace)}__to__{slugify(output_colourspace)}"
                 ),
                 matrix=nuke_format_matrix(M, decimals),
             )
@@ -439,7 +437,7 @@ APP.clientside_callback(
     f"""
     function(n_clicks) {{
         var rgbColourspaceTransformationMatrixOutput = document.getElementById(\
-"{_uid('rgb-colourspace-transformation-matrix-output')}");
+"{_uid("rgb-colourspace-transformation-matrix-output")}");
         var content = rgbColourspaceTransformationMatrixOutput.textContent;
         navigator.clipboard.writeText(content).then(function() {{
         }}, function() {{
