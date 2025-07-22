@@ -107,7 +107,7 @@ LAYOUT: Div = Div(
                         H5(children="Input Colourspace"),
                         Dropdown(
                             id=_uid("input-colourspace"),
-                            options=OPTIONS_RGB_COLOURSPACE,
+                            options=OPTIONS_RGB_COLOURSPACE,  # pyright: ignore
                             value=STATE_DEFAULT["input_colourspace"],
                             clearable=False,
                             className="app-widget",
@@ -115,7 +115,7 @@ LAYOUT: Div = Div(
                         H5(children="Output Colourspace"),
                         Dropdown(
                             id=_uid("output-colourspace"),
-                            options=OPTIONS_RGB_COLOURSPACE,
+                            options=OPTIONS_RGB_COLOURSPACE,  # pyright: ignore
                             value=STATE_DEFAULT["output_colourspace"],
                             clearable=False,
                             className="app-widget",
@@ -124,7 +124,7 @@ LAYOUT: Div = Div(
                         Dropdown(
                             id=_uid("chromatic-adaptation-transform"),
                             options=[
-                                *OPTIONS_CHROMATIC_ADAPTATION_TRANSFORM,
+                                *OPTIONS_CHROMATIC_ADAPTATION_TRANSFORM,  # pyright: ignore
                                 {"label": "None", "value": "None"},
                             ],
                             value=STATE_DEFAULT["chromatic_adaptation_transform"],
