@@ -107,7 +107,7 @@ LAYOUT: Div = Div(
                         H5(children="Input Colourspace"),
                         Dropdown(
                             id=_uid("input-colourspace"),
-                            options=OPTIONS_RGB_COLOURSPACE,
+                            options=OPTIONS_RGB_COLOURSPACE,  # pyright: ignore
                             value=STATE_DEFAULT["input_colourspace"],
                             clearable=False,
                             className="app-widget",
@@ -115,7 +115,7 @@ LAYOUT: Div = Div(
                         H5(children="Output Colourspace"),
                         Dropdown(
                             id=_uid("output-colourspace"),
-                            options=OPTIONS_RGB_COLOURSPACE,
+                            options=OPTIONS_RGB_COLOURSPACE,  # pyright: ignore
                             value=STATE_DEFAULT["output_colourspace"],
                             clearable=False,
                             className="app-widget",
@@ -124,7 +124,7 @@ LAYOUT: Div = Div(
                         Dropdown(
                             id=_uid("chromatic-adaptation-transform"),
                             options=[
-                                *OPTIONS_CHROMATIC_ADAPTATION_TRANSFORM,
+                                *OPTIONS_CHROMATIC_ADAPTATION_TRANSFORM,  # pyright: ignore
                                 {"label": "None", "value": "None"},
                             ],
                             value=STATE_DEFAULT["chromatic_adaptation_transform"],
@@ -307,9 +307,7 @@ def set_RGB_to_RGB_matrix_output(
 
             M_f = TEMPLATE_NUKE_NODE_COLORMATRIX.format(
                 name=(
-                    f"{slugify(input_colourspace)}"
-                    f"__to__"
-                    f"{slugify(output_colourspace)}"
+                    f"{slugify(input_colourspace)}__to__{slugify(output_colourspace)}"
                 ),
                 matrix=nuke_format_matrix(M, decimals),
             )
@@ -439,7 +437,7 @@ APP.clientside_callback(
     f"""
     function(n_clicks) {{
         var rgbColourspaceTransformationMatrixOutput = document.getElementById(\
-"{_uid('rgb-colourspace-transformation-matrix-output')}");
+"{_uid("rgb-colourspace-transformation-matrix-output")}");
         var content = rgbColourspaceTransformationMatrixOutput.textContent;
         navigator.clipboard.writeText(content).then(function() {{
         }}, function() {{

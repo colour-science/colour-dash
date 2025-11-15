@@ -103,7 +103,7 @@ LAYOUT: Div = Div(
                         H5(children="Colourspace"),
                         Dropdown(
                             id=_uid("colourspace"),
-                            options=OPTIONS_RGB_COLOURSPACE,
+                            options=OPTIONS_RGB_COLOURSPACE,  # pyright: ignore
                             value=STATE_DEFAULT["colourspace"],
                             clearable=False,
                             className="app-widget",
@@ -111,7 +111,7 @@ LAYOUT: Div = Div(
                         H5(children="Illuminant"),
                         Dropdown(
                             id=_uid("illuminant"),
-                            options=OPTIONS_ILLUMINANTS,
+                            options=OPTIONS_ILLUMINANTS,  # pyright: ignore
                             value=STATE_DEFAULT["illuminant"],
                             clearable=False,
                             className="app-widget",
@@ -119,7 +119,7 @@ LAYOUT: Div = Div(
                         H5(children="Chromatic Adaptation Transform"),
                         Dropdown(
                             id=_uid("chromatic-adaptation-transform"),
-                            options=OPTIONS_CHROMATIC_ADAPTATION_TRANSFORM,
+                            options=OPTIONS_CHROMATIC_ADAPTATION_TRANSFORM,  # pyright: ignore
                             value=STATE_DEFAULT["chromatic_adaptation_transform"],
                             clearable=False,
                             className="app-widget",
@@ -381,7 +381,7 @@ APP.clientside_callback(
     f"""
     function(n_clicks) {{
         var primariesOutput = document.getElementById(\
-"{_uid('primaries-output')}");
+"{_uid("primaries-output")}");
         var content = primariesOutput.textContent;
         navigator.clipboard.writeText(content).then(function() {{
         }}, function() {{

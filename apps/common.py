@@ -8,6 +8,7 @@ from __future__ import annotations
 import typing
 from io import StringIO
 
+import numpy as np
 from colour.adaptation import CHROMATIC_ADAPTATION_TRANSFORMS
 from colour.colorimetry import CCS_ILLUMINANTS
 
@@ -175,8 +176,6 @@ def matrix_3x3_to_4x4(M: ArrayLike) -> NDArrayFloat:
     list
         Raveled 4x4 matrix.
     """
-
-    import numpy as np
 
     M_I = np.identity(4)
     M_I[:3, :3] = M
