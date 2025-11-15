@@ -61,8 +61,8 @@ Repository = "https://github.com/colour-science/colour-dash"
 Issues = "https://github.com/colour-science/colour-dash/issues"
 Changelog = "https://github.com/colour-science/colour-dash/releases"
 
-[tool.uv]
-dev-dependencies = [
+[dependency-groups]
+dev = [
     "coverage",
     "coveralls",
     "invoke",
