@@ -36,7 +36,7 @@ __all__ = [
     "CONTAINER",
     "clean",
     "quality",
-    "precommit",
+    "prek",
     "requirements",
     "docker_build",
     "docker_remove",
@@ -96,9 +96,9 @@ def quality(
 
 
 @task
-def precommit(ctx: Context) -> None:
+def prek(ctx: Context) -> None:
     """
-    Run the "pre-commit" hooks on the codebase.
+    Run the "prek" hooks on the codebase.
 
     Parameters
     ----------
@@ -106,8 +106,8 @@ def precommit(ctx: Context) -> None:
         Context.
     """
 
-    message_box('Running "pre-commit" hooks on the codebase...')
-    ctx.run("pre-commit run --all-files")
+    message_box('Running "prek" hooks on the codebase...')
+    ctx.run("prek run --all-files")
 
 
 @task
@@ -193,7 +193,7 @@ def docker_run(ctx: Context) -> None:
     )
 
 
-@task(clean, quality, precommit, docker_run)
+@task(clean, quality, prek, docker_run)
 def docker_push(ctx: Context) -> None:
     """
     Push the *docker* container.
