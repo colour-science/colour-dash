@@ -37,7 +37,6 @@ __status__ = "Production"
 
 __all__ = [
     "APP_NAME",
-    "APP_NAME",
     "APP_DESCRIPTION",
     "APP_UID",
     "STATE_DEFAULT",
